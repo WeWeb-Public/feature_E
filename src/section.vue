@@ -26,49 +26,50 @@
                             <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" v-bind:style="{'border-color': section.data.activeBorderColorValue}">
                                 <div v-for="content in section.data.activeFeature.contents" :key="content.uniqueId" class="feature-content">
                                     <wwObject tag="div" v-bind:ww-object="content"></wwObject>
-                                </div>
-                                <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(data.bottomWwObjs, bottomWwObj)">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(data.bottomWwObjs, bottomWwObj)">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(data.features, feature)">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <div class="add-ww-obj-container">
-                        <div v-if="editingSection" class="add-ww-obj" @click="addNewFeature()">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="content-mask">
-                        <div class="clearfix"></div>
-                        <div class="content-bg-color confirm-border" v-bind:style="{'background-color': section.data.activeBorderColorValue}"></div>
-                        <div class="content-container">
-                            <div v-for="content in section.data.activeFeature.contents" :key="content.uniqueId" class="feature-content">
-                                <!-- <div v-for="(content, index) in section.data.activeFeature.contents" :key="index" class="feature-content"> -->
-                                <wwObject tag="div" v-bind:ww-object="content"></wwObject>
-                                <div v-if="editingSection" class="remove-ww-obj" :click="removeWwObjFromArray(data.bottomWwObjs, bottomWwObj)">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                </div>
+
+                            <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(data.features, feature)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
                             </div>
                         </div>
                         <div class="add-ww-obj-container">
-                            <div v-if="editingSection" class="add-ww-obj" :click="addWwObjToArray(data.activeFeature.contents)">
+                            <div v-if="editingSection" class="add-ww-obj" @click="addNewFeature()">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
+                    <div class="content">
+                        <div class="content-mask">
+                            <div class="clearfix"></div>
+                            <div class="content-bg-color confirm-border" v-bind:style="{'background-color': section.data.activeBorderColorValue}"></div>
+                            <div class="content-container">
+                                <div v-for="content in section.data.activeFeature.contents" :key="content.uniqueId" class="feature-content">
+                                    <!-- <div v-for="(content, index) in section.data.activeFeature.contents" :key="index" class="feature-content"> -->
+                                    <wwObject tag="div" v-bind:ww-object="content"></wwObject>
+                                    <div v-if="editingSection" class="remove-ww-obj" :click="removeWwObjFromArray(data.bottomWwObjs, bottomWwObj)">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-ww-obj-container">
+                                <div v-if="editingSection" class="add-ww-obj" :click="addWwObjToArray(data.activeFeature.contents)">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!--BOTTOM WWOBJS-->
-            <div class="bottom-ww-objs">
-                <wwLayoutColumn tag="div" ww-default="ww-image" :ww-list="section.data.bottomWwObjs" class="top-ww-obj">
-                    <wwObject v-for="bottomWwObj in section.data.bottomWwObjs" :key="bottomWwObj.uniqueId" v-bind:ww-object="bottomWwObj"></wwObject>
-                </wwLayoutColumn>
+                <!--BOTTOM WWOBJS-->
+                <div class="bottom-ww-objs">
+                    <wwLayoutColumn tag="div" ww-default="ww-image" :ww-list="section.data.bottomWwObjs" class="top-ww-obj">
+                        <wwObject v-for="bottomWwObj in section.data.bottomWwObjs" :key="bottomWwObj.uniqueId" v-bind:ww-object="bottomWwObj"></wwObject>
+                    </wwLayoutColumn>
+                </div>
             </div>
         </div>
     </div>
@@ -159,7 +160,7 @@ export default {
             this.section.data.features = this.section.data.features || [
                 this.getNewFeature()
             ];
-            console.log(this.section.data.features);
+            console.log("fetures ", this.section.data.features);
 
 
             this.section.data.activeFeature = this.section.data.features[0];
@@ -175,7 +176,7 @@ export default {
             this.sectionCtrl.update(this.section);
 
             // CUSTOM OPTIONS (colors)
-            // setInterval(function () {
+            // setTimeout(function () {
             //     registerOptionsPopup(this.openCustomPopup);
             // }, 1);
 
@@ -219,7 +220,7 @@ export default {
             // });
 
             // REGISTER ANIMATIONS
-            // setInterval(function () {
+            // setTimeout(function () {
             //     wwLib.wwCustomCSS.registerScrollElement({
             //         element: this.$el.querySelector(".content-bg-color"),
             //         fn: this.borderAnim()
@@ -278,18 +279,18 @@ export default {
         borderAnim () {
             let sectionElement = this.$el;
 
-            setInterval(function () {
+            setTimeout(function () {
                 sectionElement
                     .querySelector(".content-bg-color")
                     .classList.remove("content-bg-color-anim1");
                 sectionElement
                     .querySelector(".content-bg-color")
                     .classList.remove("content-bg-color-anim2");
-                setInterval(function () {
+                setTimeout(function () {
                     sectionElement
                         .querySelector(".content-bg-color")
                         .classList.add("content-bg-color-anim1");
-                    setInterval(function () {
+                    setTimeout(function () {
                         sectionElement
                             .querySelector(".content-bg-color")
                             .classList.add("content-bg-color-anim2");
@@ -366,6 +367,7 @@ export default {
             this.section.data.features.push(this.getNewFeature());
         },
         getActiveStyle (active) {
+            console.log("active ", active);
             if (active) {
                 return {
                     "background-color": this.section.data.activeBgButtonColorValue,
