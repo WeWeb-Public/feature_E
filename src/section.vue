@@ -16,7 +16,7 @@
 
             <!--CONTENT-->
             <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 features-container">
+                <div class="features-container container-margin container-size">
                     <div class="features">
                         <!-- <div v-for="feature in section.data.features" :key="feature.uniqueId"> -->
                         <div v-for="(feature, index) in section.data.features" :key="index">
@@ -26,13 +26,13 @@
                             <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" v-bind:style="{'border-color': section.data.activeBorderColorValue}">
                                 <div v-for="content in section.data.activeFeature.contents" :key="content.uniqueId" class="feature-content">
                                     <wwObject tag="div" v-bind:ww-object="content"></wwObject>
-                                    <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(data.bottomWwObjs, bottomWwObj)">
+                                    <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)">
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
 
-                            <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(data.features, feature)">
+                            <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.features, feature)">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -50,13 +50,13 @@
                                 <div v-for="content in section.data.activeFeature.contents" :key="content.uniqueId" class="feature-content">
                                     <!-- <div v-for="(content, index) in section.data.activeFeature.contents" :key="index" class="feature-content"> -->
                                     <wwObject tag="div" v-bind:ww-object="content"></wwObject>
-                                    <div v-if="editingSection" class="remove-ww-obj" :click="removeWwObjFromArray(data.bottomWwObjs, bottomWwObj)">
+                                    <div v-if="editingSection" class="remove-ww-obj" :click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)">
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="add-ww-obj-container">
-                                <div v-if="editingSection" class="add-ww-obj" :click="addWwObjToArray(data.activeFeature.contents)">
+                                <div v-if="editingSection" class="add-ww-obj" :click="addWwObjToArray(section.data.activeFeature.contents)">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -89,8 +89,8 @@ export default {
     data () {
         return {
             editingSection: false,
-            // topWwObjs: null,
-            // bottomWwObjs: null,
+            //topWwObjs: null,
+            //bottomWwObjs: null,
             // features: null,
             // activeFeature: null,
             // borderColorValue: null,
@@ -122,7 +122,7 @@ export default {
                 this.section.data.background = wwLib.wwObject.getDefault({
                     type: "ww-image",
                     data: {
-                        url: "http://cdn.wewebapp.io/public/images/weweb-wp.png"
+                        url: "https://wewebdev.s3-eu-west-1.amazonaws.com/public/images/urban/ChicagoSkyline1.jpg"
                     }
                 });
                 needUpdate = true;
@@ -148,20 +148,25 @@ export default {
                 needUpdate = true;
             }
 
+            if (_.isEmpty(this.section.data.topWwObjs)) {
+                this.section.data.topWwObjs = [];
+                needUpdate = true;
+            }
+
+            if (_.isEmpty(this.section.data.bottomWwObjs)) {
+                this.section.data.bottomWwObjs = [];
+                needUpdate = true;
+            }
+
             if (needUpdate) {
                 this.sectionCtrl.update(this.section);
             }
         },
         init () {
-            this.section.data.topWwObjs = this.section.data.topWwObjs || [];
-            this.section.data.bottomWwObjs = this.section.data.bottomWwObjs || [];
-
 
             this.section.data.features = this.section.data.features || [
                 this.getNewFeature()
             ];
-            console.log("fetures ", this.section.data.features);
-
 
             this.section.data.activeFeature = this.section.data.features[0];
             this.section.data.borderColorValue =
@@ -354,6 +359,33 @@ export default {
             };
         },
 
+        //  tmp for style
+        getNewWwObjContent () {
+            return {
+                data: {},
+                link: { data: {}, type: "none" },
+                ratio: 66.66666,
+                hidden: false,
+                color: "white",
+                content: {
+                    data: {
+                        tag: "div",
+                        font: "",
+                        size: "",
+                        text: { fr_FR: "Accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt." },
+                        align: "center",
+                        color: "",
+                        classes: [],
+                        children: []
+                    },
+                    type: "ww-text"
+                },
+                children: {},
+                uniqueId: wwLib.wwUtils.getUniqueId(),
+                wwVersion: 2
+            };
+        },
+
         getNewFeature () {
             let self = this;
             let feature = {
@@ -367,7 +399,6 @@ export default {
             this.section.data.features.push(this.getNewFeature());
         },
         getActiveStyle (active) {
-            console.log("active ", active);
             if (active) {
                 return {
                     "background-color": this.section.data.activeBgButtonColorValue,
@@ -388,11 +419,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- Add lang="scss" or others to use computed CSS -->
 <style scoped>
+.feature_E .row {
+    margin-right: 10px;
+    margin-left: 10px;
+    position: relative;
+}
 .feature_E .container {
     width: 100%;
     height: 100%;
     position: relative;
     padding: 0px;
+}
+
+.feature_E .container-size {
+    width: 100%;
 }
 
 .feature_E .background {
@@ -563,8 +603,6 @@ export default {
 .feature_E .xs-content.active {
     display: block;
     background-color: white;
-    display: block;
-    background-color: white;
     margin-top: -20px;
     margin-bottom: 20px;
     border: 1px solid rgba(82, 173, 20, 1);
@@ -584,6 +622,14 @@ export default {
     .feature_E .xs-content {
         display: none;
     }
+    .feature_E .container-size {
+        width: 83.33333333%;
+    }
+    .feature_E .container-margin {
+        left: -50%;
+        transform: translateX(10%);
+    }
+
     .feature_E .xs-content.active {
         display: none;
     }
@@ -614,6 +660,13 @@ export default {
     .feature_E .features-container .content {
         width: 400px;
     }
+
+    .feature_E .container-size {
+        width: 66.66666667%;
+    }
+    .feature_E .container-margin {
+        transform: translateX(30%);
+    }
 }
 
 @media (min-width: 1100px) {
@@ -637,6 +690,9 @@ export default {
 @media (min-width: 1400px) {
     .feature_E .features-container .content {
         width: 600px;
+    }
+    .feature_E .container-size {
+        width: 60%;
     }
 }
 
