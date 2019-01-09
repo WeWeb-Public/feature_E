@@ -5,70 +5,56 @@
         <!-- wwManager:end -->
         <div class="feature_E section-side-padding">
             <wwObject class="background" v-bind:ww-object="section.data.background" ww-category="background"></wwObject>
-
             <!--TOP WWOBJS-->
-            <!-- marge and an add element -->
             <div class="top-ww-objs">
-                <wwLayoutColumn tag="div" ww-default="ww-image" :ww-list="section.data.topWwObjs" class="top-ww-obj">
-                    <wwObject v-for="topWwObj in section.data.topWwObjs" :key="topWwObj.uniqueId" v-bind:ww-object="topWwObj"></wwObject>
+                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.topWwObjs" class="top-ww-obj" @ww-add="add(section.data.topWwObjs, $event)" @ww-remove="remove(section.data.topWwObjs, $event)">
+                    <wwObject v-for="topWwObj in section.data.topWwObjs" :key="topWwObj.uniqueId" :ww-object="topWwObj"></wwObject>
                 </wwLayoutColumn>
             </div>
-
             <!--CONTENT-->
             <div class="row">
                 <div class="features-container container-margin container-size">
                     <div class="features">
                         <!-- <div v-for="feature in section.data.features" :key="feature.uniqueId"> -->
-                        <div v-for="(feature, index) in section.data.features" :key="index">
-                            <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" v-bind:style="getActiveStyle(feature.title.data.active)" @click="setActiveFeature(feature)">
-                                <wwObject tag="div" v-bind:ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
-                            </div>
-                            <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" v-bind:style="{'border-color': section.data.activeBorderColorValue}">
-                                <div v-for="content in section.data.activeFeature.contents" :key="content.uniqueId" class="feature-content">
-                                    <wwObject tag="div" v-bind:ww-object="content"></wwObject>
-                                    <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)">
-                                        <i class="fa fa-times" aria-hidden="true"></i>
+                        <wwLayoutColumn tag="div" ww-default="ww-image" :ww-list="section.data.features" class="top-ww-obj" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
+                            <div v-for="(feature, index) in section.data.features" :key="index">
+                                <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" v-bind:style="getActiveStyle(feature.title.data.active)" @click="setActiveFeature(feature)">
+                                    <wwObject tag="div" v-bind:ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
+                                </div>
+                                <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" v-bind:style="{'border-color': section.data.activeBorderColorValue}">
+                                    <div v-for="content in activeFeature.contents" :key="content.uniqueId" class="feature-content">
+                                        <wwObject tag="div" v-bind:ww-object="content"></wwObject>
+                                        <!--                                <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)"> -->
                                     </div>
                                 </div>
                             </div>
-
-                            <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.features, feature)">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <div class="add-ww-obj-container">
-                            <div v-if="editingSection" class="add-ww-obj" @click="addNewFeature()">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                            </div>
-                        </div>
+                        </wwLayoutColumn>
                     </div>
                     <div class="content">
                         <div class="content-mask">
                             <div class="clearfix"></div>
                             <div class="content-bg-color confirm-border" v-bind:style="{'background-color': section.data.activeBorderColorValue}"></div>
                             <div class="content-container">
-                                <div v-for="content in section.data.activeFeature.contents" :key="content.uniqueId" class="feature-content">
-                                    <!-- <div v-for="(content, index) in section.data.activeFeature.contents" :key="index" class="feature-content"> -->
-                                    <wwObject tag="div" v-bind:ww-object="content"></wwObject>
-                                    <div v-if="editingSection" class="remove-ww-obj" :click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)">
-                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="add-ww-obj-container">
-                                <div v-if="editingSection" class="add-ww-obj" :click="addWwObjToArray(section.data.activeFeature.contents)">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                </div>
+                                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="activeFeature.contents" class="feature-content" @ww-add="add(activeFeature.contents, $event)" @ww-remove="remove(activeFeature.contents, $event)">
+                                    <wwObject v-for="content in activeFeature.contents" :key="content.uniqueId" :ww-object="content"></wwObject>
+                                </wwLayoutColumn>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!--BOTTOM WWOBJS-->
-                <div class="bottom-ww-objs">
-                    <wwLayoutColumn tag="div" ww-default="ww-image" :ww-list="section.data.bottomWwObjs" class="top-ww-obj">
-                        <wwObject v-for="bottomWwObj in section.data.bottomWwObjs" :key="bottomWwObj.uniqueId" v-bind:ww-object="bottomWwObj"></wwObject>
-                    </wwLayoutColumn>
+            </div>
+            <!--BOTTOM WWOBJS-->
+            <div class="bottom-ww-objs">
+                <div class="top-ww-obj" v-for="(bottomWwObj, index) in section.data.bottomWwObjs" :key="index">
+                    <wwObject tag="div" v-bind:ww-object="bottomWwObj"></wwObject>
+                    <div v-if="sectionCtrl.getEditMode() == 'CONTENT'" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="add-ww-obj-container">
+                    <div v-if="sectionCtrl.getEditMode() == 'CONTENT'" class="add-ww-obj" @click="addWwObjToArray(section.data.bottomWwObjs)">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,33 +72,32 @@ export default {
         // Use it has you like !
         sectionCtrl: Object
     },
-    data () {
+    data() {
         return {
             editingSection: false,
-            //topWwObjs: null,
-            //bottomWwObjs: null,
+            /*   topWwObjs: null,
+            bottomWwObjs: null */
             // features: null,
-            // activeFeature: null,
+            activeFeature: null
             // borderColorValue: null,
             // activeBgButtonColorValue: null,
             // activeBorderColorValue: null
         };
     },
     computed: {
-        section () {
+        section() {
             return this.sectionCtrl.get();
         }
     },
-    created () {
+    created() {
         this.initData();
         //Initialize section data
-
     },
-    mounted () {
+    mounted() {
         this.init();
     },
     methods: {
-        initData () {
+        initData() {
             //Init objects
             let needUpdate = false;
 
@@ -122,7 +107,8 @@ export default {
                 this.section.data.background = wwLib.wwObject.getDefault({
                     type: "ww-image",
                     data: {
-                        url: "https://wewebdev.s3-eu-west-1.amazonaws.com/public/images/urban/ChicagoSkyline1.jpg"
+                        url:
+                            "https://wewebdev.s3-eu-west-1.amazonaws.com/public/images/urban/ChicagoSkyline1.jpg"
                     }
                 });
                 needUpdate = true;
@@ -152,6 +138,10 @@ export default {
                 this.section.data.topWwObjs = [];
                 needUpdate = true;
             }
+            if (!this.section.data.topWwObj) {
+                this.section.data.topWwObj = [];
+                needUpdate = true;
+            }
 
             if (_.isEmpty(this.section.data.bottomWwObjs)) {
                 this.section.data.bottomWwObjs = [];
@@ -162,8 +152,7 @@ export default {
                 this.sectionCtrl.update(this.section);
             }
         },
-        init () {
-
+        init() {
             this.section.data.features = this.section.data.features || [
                 this.getNewFeature()
             ];
@@ -234,8 +223,8 @@ export default {
 
             this.$emit("ctrl-ready", "feature_E");
         },
-        openCustomPopup () {
-            var options = {};
+        openCustomPopup() {
+            let options = {};
 
             options.columnCount = parseInt(this.data.columnCount) + 0;
 
@@ -248,10 +237,10 @@ export default {
 
             wwLib.wwPopup
                 .open(options)
-                .then(function (result) {
+                .then(function(result) {
                     console.log("LE RESULTAT !!!", result);
 
-                    var borderColorValue = wwLib.wwPopup.getValue(
+                    let borderColorValue = wwLib.wwPopup.getValue(
                         result,
                         "borderColorValue"
                     );
@@ -259,7 +248,7 @@ export default {
                         this.data.borderColorValue = borderColorValue;
                     }
 
-                    var activeBorderColorValue = wwLib.wwPopup.getValue(
+                    let activeBorderColorValue = wwLib.wwPopup.getValue(
                         result,
                         "activeBorderColorValue"
                     );
@@ -267,7 +256,7 @@ export default {
                         this.data.activeBorderColorValue = activeBorderColorValue;
                     }
 
-                    var activeBgButtonColorValue = wwLib.wwPopup.getValue(
+                    let activeBgButtonColorValue = wwLib.wwPopup.getValue(
                         result,
                         "activeBgButtonColorValue"
                     );
@@ -275,66 +264,64 @@ export default {
                         this.data.activeBgButtonColorValue = activeBgButtonColorValue;
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("ERROR : ", error);
                 });
         },
 
-
-        borderAnim () {
+        borderAnim() {
             let sectionElement = this.$el;
 
-            setTimeout(function () {
+            setTimeout(function() {
                 sectionElement
                     .querySelector(".content-bg-color")
                     .classList.remove("content-bg-color-anim1");
                 sectionElement
                     .querySelector(".content-bg-color")
                     .classList.remove("content-bg-color-anim2");
-                setTimeout(function () {
+                setTimeout(function() {
                     sectionElement
                         .querySelector(".content-bg-color")
                         .classList.add("content-bg-color-anim1");
-                    setTimeout(function () {
+                    setTimeout(function() {
                         sectionElement
                             .querySelector(".content-bg-color")
                             .classList.add("content-bg-color-anim2");
                     }, 400);
                 }, 1);
             }, 1);
-
         },
 
-        setActiveFeature (feature) {
+        setActiveFeature(feature) {
             // MANGE ACTIVE CLASS
-            var currentActiveFeature;
-            for (var _feature of this.section.data.features) {
+            let currentActiveFeature;
+            for (let _feature of this.section.data.features) {
                 if (_feature.title && _feature.title.data.active) {
                     _feature.title.data.active = false;
                     _feature.title.data.bgButtonColorValue = false;
                 }
             }
             feature.title.data.active = true;
-            this.section.data.activeFeature = feature;
+            this.activeFeature = feature;
             this.borderAnim();
             this.sectionCtrl.update(this.section);
         },
 
-        removeWwObjFromArray (wwObjArray, index) {
+        removeWwObjFromArray(wwObjArray, index) {
             if (index !== -1) {
                 wwObjArray.splice(index, 1);
             }
         },
 
-        addWwObjToArray (wwObjArray, option) {
-            var objToPush = this.getNewWwObj();
+        addWwObjToArray(wwObjArray, option) {
+            let objToPush = this.getNewWwObj();
             if (option === "empty") {
                 objToPush = {};
             }
             wwObjArray.push(objToPush);
         },
 
-        getNewWwObj () {
+        getNewWwObj() {
             return {
                 data: {},
                 link: { data: {}, type: "none" },
@@ -360,7 +347,7 @@ export default {
         },
 
         //  tmp for style
-        getNewWwObjContent () {
+        getNewWwObjContent() {
             return {
                 data: {},
                 link: { data: {}, type: "none" },
@@ -372,7 +359,10 @@ export default {
                         tag: "div",
                         font: "",
                         size: "",
-                        text: { fr_FR: "Accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt." },
+                        text: {
+                            fr_FR:
+                                "Accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+                        },
                         align: "center",
                         color: "",
                         classes: [],
@@ -386,22 +376,32 @@ export default {
             };
         },
 
-        getNewFeature () {
+        getNewFeature(wwObject) {
             let self = this;
             let feature = {
-                title: self.getNewWwObj(),
+                title: wwObject || self.getNewWwObj(),
                 contents: [self.getNewWwObj()],
                 uniqueId: wwLib.wwUtils.getUniqueId()
             };
             return feature;
         },
-        addNewFeature () {
-            this.section.data.features.push(this.getNewFeature());
+        addNewFeature(options) {
+            this.section.data.features.splice(
+                options.index,
+                0,
+                this.getNewFeature(options.wwObject)
+            );
+            this.sectionCtrl.update(this.section);
         },
-        getActiveStyle (active) {
+        removeFeature(options) {
+            this.section.data.features.splice(options.index, 1);
+            this.sectionCtrl.update(this.section);
+        },
+        getActiveStyle(active) {
             if (active) {
                 return {
-                    "background-color": this.section.data.activeBgButtonColorValue,
+                    "background-color": this.section.data
+                        .activeBgButtonColorValue,
                     "border-color": this.section.data.activeBorderColorValue
                 };
             } else {
@@ -410,6 +410,14 @@ export default {
                     "border-color": this.section.data.borderColorValue
                 };
             }
+        },
+        add(list, options) {
+            list.splice(options.index, 0, options.wwObject);
+            this.sectionCtrl.update(this.section);
+        },
+        remove(list, options) {
+            list.splice(options.index, 1);
+            this.sectionCtrl.update(this.section);
         }
     }
 };
@@ -613,9 +621,7 @@ export default {
 }
 
 .feature_E .confirm-border {
-    border-radius: 33px;
-    -moz-border-radius: 33px;
-    -webkit-border-radius: 33px;
+    border-radius: 33px 0 0 33px;
 }
 
 @media (min-width: 768px) {
