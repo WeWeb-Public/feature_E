@@ -4,7 +4,7 @@
         <wwSectionEditMenu :sectionCtrl="sectionCtrl"></wwSectionEditMenu>
         <!-- wwManager:end -->
         <div class="feature_E section-side-padding">
-            <wwObject class="background" v-bind:ww-object="section.data.background" ww-category="background"></wwObject>
+            <wwObject class="background" :ww-object="section.data.background" ww-category="background"></wwObject>
             <!--TOP WWOBJS-->
             <div class="top-ww-objs">
                 <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.topWwObjs" class="top-ww-obj" @ww-add="add(section.data.topWwObjs, $event)" @ww-remove="remove(section.data.topWwObjs, $event)">
@@ -15,16 +15,14 @@
             <div class="row">
                 <div class="features-container container-margin container-size">
                     <div class="features">
-                        <!-- <div v-for="feature in section.data.features" :key="feature.uniqueId"> -->
-                        <wwLayoutColumn tag="div" ww-default="ww-image" :ww-list="section.data.features" class="top-ww-obj" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
-                            <div v-for="(feature, index) in section.data.features" :key="index">
-                                <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" v-bind:style="getActiveStyle(feature.title.data.active)" @click="setActiveFeature(feature)">
+                        <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features" class="top-ww-obj" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
+                            <div v-for="feature in section.data.features" :key="feature.uniqueId">
+                                <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" :style="getActiveStyle(feature.title.data.active)" @click="setActiveFeature(feature)">
                                     <wwObject tag="div" v-bind:ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
                                 </div>
-                                <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" v-bind:style="{'border-color': section.data.activeBorderColorValue}">
+                                <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" :style="{'border-color': section.data.activeBorderColorValue}">
                                     <div v-for="content in activeFeature.contents" :key="content.uniqueId" class="feature-content">
                                         <wwObject tag="div" v-bind:ww-object="content"></wwObject>
-                                        <!--                                <div v-if="editingSection" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)"> -->
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +31,7 @@
                     <div class="content">
                         <div class="content-mask">
                             <div class="clearfix"></div>
-                            <div class="content-bg-color confirm-border" v-bind:style="{'background-color': section.data.activeBorderColorValue}"></div>
+                            <div class="content-bg-color confirm-border" :style="{'background-color': section.data.activeBorderColorValue}"></div>
                             <div class="content-container">
                                 <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="activeFeature.contents" class="feature-content" @ww-add="add(activeFeature.contents, $event)" @ww-remove="remove(activeFeature.contents, $event)">
                                     <wwObject v-for="content in activeFeature.contents" :key="content.uniqueId" :ww-object="content"></wwObject>
@@ -45,17 +43,9 @@
             </div>
             <!--BOTTOM WWOBJS-->
             <div class="bottom-ww-objs">
-                <div class="top-ww-obj" v-for="(bottomWwObj, index) in section.data.bottomWwObjs" :key="index">
-                    <wwObject tag="div" v-bind:ww-object="bottomWwObj"></wwObject>
-                    <div v-if="sectionCtrl.getEditMode() == 'CONTENT'" class="remove-ww-obj" @click="removeWwObjFromArray(section.data.bottomWwObjs, bottomWwObj)">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="add-ww-obj-container">
-                    <div v-if="sectionCtrl.getEditMode() == 'CONTENT'" class="add-ww-obj" @click="addWwObjToArray(section.data.bottomWwObjs)">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </div>
-                </div>
+                <wwLayoutColumn tag="div" ww-default="ww-imgae" :ww-list="section.data.bottomWwObjs" class="top-ww-obj" @ww-add="add(section.data.bottomWwObjs, $event)" @ww-remove="remove(section.data.bottomWwObjs, $event)">
+                    <wwObject v-for="bottomWwObjs in section.data.bottomWwObjs" :key="bottomWwObjs.uniqueId" :ww-object="bottomWwObjs"></wwObject>
+                </wwLayoutColumn>
             </div>
         </div>
     </div>
@@ -75,13 +65,8 @@ export default {
     data() {
         return {
             editingSection: false,
-            /*   topWwObjs: null,
-            bottomWwObjs: null */
             // features: null,
             activeFeature: null
-            // borderColorValue: null,
-            // activeBgButtonColorValue: null,
-            // activeBorderColorValue: null
         };
     },
     computed: {
@@ -136,10 +121,6 @@ export default {
 
             if (_.isEmpty(this.section.data.topWwObjs)) {
                 this.section.data.topWwObjs = [];
-                needUpdate = true;
-            }
-            if (!this.section.data.topWwObj) {
-                this.section.data.topWwObj = [];
                 needUpdate = true;
             }
 
@@ -271,7 +252,17 @@ export default {
 
         borderAnim() {
             let sectionElement = this.$el;
-
+            //TODO: when the website the animation is executed before the DOM is finishid loading so it throws an error
+            /* setTimeout(function() {
+                sectionElement
+                    .querySelector(".content-bg-color")
+                    .classList.remove("enable-animation");
+                setTimeout(function() {
+                    sectionElement
+                        .querySelector(".content-bg-color")
+                        .classList.add("enable-animation");
+                }, 400);
+            }, 1); */
             setTimeout(function() {
                 sectionElement
                     .querySelector(".content-bg-color")
@@ -304,21 +295,7 @@ export default {
             feature.title.data.active = true;
             this.activeFeature = feature;
             this.borderAnim();
-            this.sectionCtrl.update(this.section);
-        },
-
-        removeWwObjFromArray(wwObjArray, index) {
-            if (index !== -1) {
-                wwObjArray.splice(index, 1);
-            }
-        },
-
-        addWwObjToArray(wwObjArray, option) {
-            let objToPush = this.getNewWwObj();
-            if (option === "empty") {
-                objToPush = {};
-            }
-            wwObjArray.push(objToPush);
+            //this.sectionCtrl.update(this.section); this one was preventing the update of the color
         },
 
         getNewWwObj() {
@@ -346,36 +323,6 @@ export default {
             };
         },
 
-        //  tmp for style
-        getNewWwObjContent() {
-            return {
-                data: {},
-                link: { data: {}, type: "none" },
-                ratio: 66.66666,
-                hidden: false,
-                color: "white",
-                content: {
-                    data: {
-                        tag: "div",
-                        font: "",
-                        size: "",
-                        text: {
-                            fr_FR:
-                                "Accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-                        },
-                        align: "center",
-                        color: "",
-                        classes: [],
-                        children: []
-                    },
-                    type: "ww-text"
-                },
-                children: {},
-                uniqueId: wwLib.wwUtils.getUniqueId(),
-                wwVersion: 2
-            };
-        },
-
         getNewFeature(wwObject) {
             let self = this;
             let feature = {
@@ -385,7 +332,9 @@ export default {
             };
             return feature;
         },
+
         addNewFeature(options) {
+            // wrong index
             this.section.data.features.splice(
                 options.index,
                 0,
@@ -397,7 +346,9 @@ export default {
             this.section.data.features.splice(options.index, 1);
             this.sectionCtrl.update(this.section);
         },
+        //TODO: when we click on a button there is to call to this fct one is with true the other is with undefined
         getActiveStyle(active) {
+            console.log("active", active);
             if (active) {
                 return {
                     "background-color": this.section.data
@@ -471,11 +422,8 @@ export default {
     background-color: white;
     color: #92979c;
     box-shadow: 0px 1px 1px 0px #656565;
-    -moz-box-shadow: 0px 1px 1px 0px #656565;
-    -webkit-box-shadow: 0px 1px 1px 0px #656565;
+
     border-radius: 100%;
-    -moz-border-radius: 100%;
-    -webkit-border-radius: 100%;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
@@ -496,17 +444,11 @@ export default {
     background-color: white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
     border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     cursor: pointer;
 }
 
 .feature_E .features-container {
     display: table;
-    -moz-transition: all 0.4s ease-out;
-    -o-transition: all 0.4s ease-out;
-    -ms-transition: all 0.4s ease-out;
-    -webkit-transition: all 0.4s ease-out;
     transition: all 0.4s ease-out;
 }
 
@@ -525,16 +467,8 @@ export default {
     padding: 10px 20px;
     border: 1px solid rgba(82, 173, 20, 1);
     border-top-left-radius: 20px;
-    -webkit-border-top-left-radius: 20px;
-    -moz-border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    -webkit-border-bottom-left-radius: 20px;
-    -moz-border-bottom-left-radius: 20px;
-    -webkit-border-top-right-radius: 20px;
-    -moz-border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    -webkit-border-bottom-right-radius: 20px;
-    -moz-border-bottom-right-radius: 20px;
     cursor: pointer;
 }
 
@@ -549,8 +483,6 @@ export default {
     background-color: rgba(0, 0, 0, 0);
     width: 300px;
     border-radius: 30px;
-    -moz-border-radius: 30px;
-    -webkit-border-radius: 30px;
     position: relative;
 }
 
@@ -567,8 +499,6 @@ export default {
     height: 100%;
     min-height: 300px;
     border-radius: 30px;
-    -moz-border-radius: 30px;
-    -webkit-border-radius: 30px;
     padding: 40px;
     box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
 }
@@ -582,21 +512,31 @@ export default {
     transform-origin: 0% 50%;
 }
 
+@keyframes content-bg-color-animation {
+    0% {
+        transform: scale(0, 0);
+    }
+    50% {
+        transform: scale(0.1, 1);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+.feature_E .enable-animation {
+    animation-name: content-bg-color-anim;
+    animation-delay: 1s;
+    animation-timing-function: ease-out;
+}
+
 .feature_E .content-bg-color-anim1 {
     transform: scale(0.1, 1);
-    -webkit-transition: all 0.4s ease-in;
-    -moz-transition: all 0.4s ease-in;
-    -o-transition: all 0.4s ease-in;
-    -ms-transition: all 0.4s ease-in;
     transition: all 0.4s ease-in;
 }
 
 .feature_E .content-bg-color-anim2 {
     transform: scale(1, 1);
-    -webkit-transition: all 0.4s ease-out;
-    -moz-transition: all 0.4s ease-out;
-    -o-transition: all 0.4s ease-out;
-    -ms-transition: all 0.4s ease-out;
     transition: all 0.4s ease-out;
 }
 
@@ -615,8 +555,6 @@ export default {
     margin-bottom: 20px;
     border: 1px solid rgba(82, 173, 20, 1);
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     padding: 40px 15px;
 }
 
@@ -647,11 +585,7 @@ export default {
         margin-left: 0;
         margin-bottom: 40px;
         border-right: 0;
-        -webkit-border-top-right-radius: 0;
-        -moz-border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-        -webkit-border-bottom-right-radius: 0;
-        -moz-border-bottom-right-radius: 0;
     }
     .feature_E .feature-title.active {
         margin-bottom: 40px;
