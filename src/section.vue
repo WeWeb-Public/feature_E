@@ -16,7 +16,7 @@
                 <div class="features-container container-margin container-size">
                     <div class="features">
                         <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features" class="top-ww-obj" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
-                            <div v-for="feature in section.data.features" :key="feature.uniqueId">
+                            <div v-for="feature in section.data.features" :key="feature.uniqueId" class="feature">
                                 <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" :style="getActiveStyle(feature.title.data.active)" @click="setActiveFeature(feature)">
                                     <wwObject tag="div" v-bind:ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
                                 </div>
@@ -32,7 +32,7 @@
                         <div class="content-mask">
                             <div class="clearfix"></div>
                             <div class="content-bg-color confirm-border" :style="{'background-color': section.data.activeBorderColorValue}"></div>
-                            <div class="content-container" :style="{'min-height': containerSize + 'px'}">
+                            <div class="content-container">
                                 <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="activeFeature.contents" class="feature-content" @ww-add="add(activeFeature.contents, $event)" @ww-remove="remove(activeFeature.contents, $event)">
                                     <wwObject v-for="content in activeFeature.contents" :key="content.uniqueId" :ww-object="content"></wwObject>
                                 </wwLayoutColumn>
@@ -75,7 +75,6 @@ export default {
         }
     },
     created() {
-        // this.init();
         this.initData();
         //Initialize section data
     },
@@ -261,7 +260,7 @@ export default {
                         sectionElement
                             .querySelector(".content-bg-color")
                             .classList.add("enable-animation");
-                    }, 400);
+                    }, 50);
                 }, 1);
             }
         },
@@ -278,6 +277,7 @@ export default {
             feature.title.data.active = true;
             this.activeFeature = feature;
             this.borderAnim();
+            this.featureAnim();
             // this.sectionCtrl.update(this.section); //this one was preventing the update of the color
         },
 
@@ -323,18 +323,10 @@ export default {
                 0,
                 this.getNewFeature(options.wwObject)
             );
-
-            if (this.section.data.features.length > 3) {
-                this.containerSize += 80;
-            }
-
             this.sectionCtrl.update(this.section);
         },
         removeFeature(options) {
             this.section.data.features.splice(options.index, 1);
-            if (this.section.data.features.length > 3) {
-                this.containerSize -= 80;
-            }
             this.sectionCtrl.update(this.section);
         },
 
@@ -350,6 +342,22 @@ export default {
                     "background-color": "#FFFFFF",
                     "border-color": this.section.data.borderColorValue
                 };
+            }
+        },
+        featureAnim() {
+            let sectionElement = this.$el;
+
+            if (this.$el) {
+                setTimeout(function() {
+                    sectionElement
+                        .querySelector(".active")
+                        .classList.remove("enable-feature-animation");
+                    setTimeout(function() {
+                        sectionElement
+                            .querySelector(".active")
+                            .classList.add("enable-feature-animation");
+                    }, 100);
+                }, 1);
             }
         },
         add(list, options) {
@@ -438,14 +446,22 @@ export default {
 }
 
 .feature_E .features-container {
-    display: table;
+    display: flex;
     transition: all 0.4s ease-out;
+    justify-content: center;
 }
 
 .feature_E .features-container .features {
-    display: table-cell;
     padding-top: 10px;
-    /*vertical-align: middle;*/
+    flex-basis: 350px;
+}
+
+.feature + .feature {
+    margin-top: 40px;
+}
+
+.feature:last-of-type {
+    margin-bottom: 50px;
 }
 
 .feature_E .feature-title {
@@ -453,13 +469,13 @@ export default {
     width: 90%;
     margin-left: 5%;
     background-color: white;
-    margin-bottom: 20px;
     padding: 10px 20px;
     border: 1px solid rgba(82, 173, 20, 1);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     cursor: pointer;
+    pointer-events: all;
 }
 
 .feature_E .feature-title.active {
@@ -480,14 +496,14 @@ export default {
     border-radius: 33px;
     overflow: hidden;
     transform: translateZ(0);
+    height: 100%;
 }
 
 .feature_E .features-container .content-container {
     background-color: white;
     position: relative;
     margin: 4px;
-    height: 100%;
-    /* min-height: 300px; */
+    height: calc(100% - 8px);
     border-radius: 30px;
     padding: 40px;
     box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
@@ -498,8 +514,30 @@ export default {
     background-color: #51ad14;
     width: 50%;
     height: 100%;
-    transform: scale(0, 0);
+    /* transform: scale(0, 0) */
     transform-origin: 0% 50%;
+}
+
+.feature_E .enable-feature-animation {
+    animation: feature-animation 0.6s forwards;
+}
+
+@keyframes feature-animation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes feature-animation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .feature_E .enable-animation {
@@ -509,16 +547,19 @@ export default {
 @keyframes content-bg-color-animation {
     0% {
         transform: scale(0, 0);
+        opacity: 0;
     }
     50% {
         transform: scale(0.1, 1);
+        opacity: 0.5;
     }
 
     100% {
         transform: scale(1, 1);
+        opacity: 1;
     }
 }
-/* @-webkit-keyframes content-bg-color-animation {
+@-webkit-keyframes content-bg-color-animation {
     0% {
         transform: scale(1, 0);
     }
@@ -529,7 +570,7 @@ export default {
         transform: scale(1, 1);
     }
 }
- */
+
 .feature_E .content-bg-color-anim1 {
     transform: scale(0.1, 1);
     transition: all 0.4s ease-in;
@@ -563,6 +604,9 @@ export default {
 }
 
 @media (min-width: 768px) {
+    .feature_E .features-container .features {
+        flex-basis: 235px;
+    }
     .feature_E .xs-content {
         display: none;
     }
@@ -583,12 +627,8 @@ export default {
     .feature_E .feature-title {
         width: 100%;
         margin-left: 0;
-        margin-bottom: 40px;
         border-right: 0;
         border-bottom-right-radius: 0;
-    }
-    .feature_E .feature-title.active {
-        margin-bottom: 40px;
     }
     .feature_E .features-container .content {
         width: 350px;
@@ -597,6 +637,10 @@ export default {
 }
 
 @media (min-width: 992px) {
+    .feature_E .features-container .features {
+        flex-basis: 205px;
+    }
+
     .feature_E .features-container .content {
         width: 400px;
     }
@@ -633,6 +677,9 @@ export default {
     }
     .feature_E .container-size {
         width: 60%;
+    }
+    .feature_E .features-container .features {
+        flex-basis: 400px;
     }
 }
 
