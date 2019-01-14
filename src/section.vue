@@ -32,7 +32,7 @@
                         <div class="content-mask">
                             <div class="clearfix"></div>
                             <div class="content-bg-color confirm-border" :style="{'background-color': section.data.activeBorderColorValue}"></div>
-                            <div class="content-container">
+                            <div class="content-container" :style="{'min-height': containerSize + 'px'}">
                                 <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="activeFeature.contents" class="feature-content" @ww-add="add(activeFeature.contents, $event)" @ww-remove="remove(activeFeature.contents, $event)">
                                     <wwObject v-for="content in activeFeature.contents" :key="content.uniqueId" :ww-object="content"></wwObject>
                                 </wwLayoutColumn>
@@ -66,7 +66,9 @@ export default {
         return {
             editingSection: false,
             // features: null,
-            activeFeature: null
+            enableAnimation: false,
+            activeFeature: null,
+            containerSize: 300
         };
     },
     computed: {
@@ -252,8 +254,8 @@ export default {
 
         borderAnim() {
             let sectionElement = this.$el;
-            //TODO: when the website the animation is executed before the DOM is finishid loading so it throws an error
-            /* setTimeout(function() {
+
+            setTimeout(function() {
                 sectionElement
                     .querySelector(".content-bg-color")
                     .classList.remove("enable-animation");
@@ -262,7 +264,8 @@ export default {
                         .querySelector(".content-bg-color")
                         .classList.add("enable-animation");
                 }, 400);
-            }, 1); */
+            }, 1);
+            /* 
             setTimeout(function() {
                 sectionElement
                     .querySelector(".content-bg-color")
@@ -280,7 +283,7 @@ export default {
                             .classList.add("content-bg-color-anim2");
                     }, 400);
                 }, 1);
-            }, 1);
+            }, 1); */
         },
 
         setActiveFeature(feature) {
@@ -335,20 +338,30 @@ export default {
 
         addNewFeature(options) {
             // wrong index
+            console.log(this.section.data.features.length);
+            console.log("window.innerHeigh", window.innerHeigh);
+            console.log("options.index:", options.index);
             this.section.data.features.splice(
                 options.index,
                 0,
                 this.getNewFeature(options.wwObject)
             );
+
+            if (this.section.data.features.length > 3) {
+                this.containerSize += 80;
+            }
+
             this.sectionCtrl.update(this.section);
         },
         removeFeature(options) {
             this.section.data.features.splice(options.index, 1);
+            if (this.section.data.features.length > 3) {
+                this.containerSize -= 80;
+            }
             this.sectionCtrl.update(this.section);
         },
-        //TODO: when we click on a button there is to call to this fct one is with true the other is with undefined
+
         getActiveStyle(active) {
-            console.log("active", active);
             if (active) {
                 return {
                     "background-color": this.section.data
@@ -497,7 +510,7 @@ export default {
     position: relative;
     margin: 4px;
     height: 100%;
-    min-height: 300px;
+    /* min-height: 300px; */
     border-radius: 30px;
     padding: 40px;
     box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
@@ -512,9 +525,25 @@ export default {
     transform-origin: 0% 50%;
 }
 
+.feature_E .enable-animation {
+    animation: content-bg-color-animation 0.6s forwards;
+}
+
 @keyframes content-bg-color-animation {
     0% {
         transform: scale(0, 0);
+    }
+    50% {
+        transform: scale(0.1, 1);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+/* @-webkit-keyframes content-bg-color-animation {
+    0% {
+        transform: scale(1, 0);
     }
     50% {
         transform: scale(0.1, 1);
@@ -523,13 +552,7 @@ export default {
         transform: scale(1, 1);
     }
 }
-
-.feature_E .enable-animation {
-    animation-name: content-bg-color-anim;
-    animation-delay: 1s;
-    animation-timing-function: ease-out;
-}
-
+ */
 .feature_E .content-bg-color-anim1 {
     transform: scale(0.1, 1);
     transition: all 0.4s ease-in;
