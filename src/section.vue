@@ -65,8 +65,6 @@ export default {
     data() {
         return {
             editingSection: false,
-            // features: null,
-            enableAnimation: false,
             activeFeature: null,
             containerSize: 300
         };
@@ -77,6 +75,7 @@ export default {
         }
     },
     created() {
+        // this.init();
         this.initData();
         //Initialize section data
     },
@@ -88,6 +87,19 @@ export default {
             //Init objects
             let needUpdate = false;
 
+            this.section.data.features = this.section.data.features || [
+                this.getNewFeature()
+            ];
+
+            this.section.data.activeFeature = this.section.data.features[0];
+            this.section.data.borderColorValue =
+                this.section.data.borderColorValue || "#54AB26";
+            this.section.data.activeBgButtonColorValue =
+                this.section.data.activeBgButtonColorValue || "#9AD575";
+            this.section.data.activeBorderColorValue =
+                this.section.data.activeBorderColorValue || "#54AB26";
+
+            /* this.setActiveFeature(this.section.data.activeFeature); */
             this.section.data = this.section.data || {};
 
             if (!this.section.data.background) {
@@ -131,32 +143,19 @@ export default {
                 needUpdate = true;
             }
 
+            this.setActiveFeature(this.section.data.activeFeature);
             if (needUpdate) {
                 this.sectionCtrl.update(this.section);
             }
         },
         init() {
-            this.section.data.features = this.section.data.features || [
-                this.getNewFeature()
-            ];
-
-            this.section.data.activeFeature = this.section.data.features[0];
-            this.section.data.borderColorValue =
-                this.section.data.borderColorValue || "#54AB26";
-            this.section.data.activeBgButtonColorValue =
-                this.section.data.activeBgButtonColorValue || "#9AD575";
-            this.section.data.activeBorderColorValue =
-                this.section.data.activeBorderColorValue || "#54AB26";
-
             this.setActiveFeature(this.section.data.activeFeature);
-
-            this.sectionCtrl.update(this.section);
+            /* this.sectionCtrl.update(this.section); */
 
             // CUSTOM OPTIONS (colors)
             // setTimeout(function () {
             //     registerOptionsPopup(this.openCustomPopup);
             // }, 1);
-
             // wwLib.wwPopupStory.registerStory({
             //     POPUP_FEATURE_E_COLORS: {
             //         title: wwLib.wwManagerLang.get("popups.CONFIGURATION.configuration"),
@@ -195,7 +194,6 @@ export default {
             //         }
             //     }
             // });
-
             // REGISTER ANIMATIONS
             // setTimeout(function () {
             //     wwLib.wwCustomCSS.registerScrollElement({
@@ -203,7 +201,6 @@ export default {
             //         fn: this.borderAnim()
             //     });
             // }, 1);
-
             this.$emit("ctrl-ready", "feature_E");
         },
         openCustomPopup() {
@@ -255,35 +252,18 @@ export default {
         borderAnim() {
             let sectionElement = this.$el;
 
-            setTimeout(function() {
-                sectionElement
-                    .querySelector(".content-bg-color")
-                    .classList.remove("enable-animation");
+            if (this.$el) {
                 setTimeout(function() {
                     sectionElement
                         .querySelector(".content-bg-color")
-                        .classList.add("enable-animation");
-                }, 400);
-            }, 1);
-            /* 
-            setTimeout(function() {
-                sectionElement
-                    .querySelector(".content-bg-color")
-                    .classList.remove("content-bg-color-anim1");
-                sectionElement
-                    .querySelector(".content-bg-color")
-                    .classList.remove("content-bg-color-anim2");
-                setTimeout(function() {
-                    sectionElement
-                        .querySelector(".content-bg-color")
-                        .classList.add("content-bg-color-anim1");
+                        .classList.remove("enable-animation");
                     setTimeout(function() {
                         sectionElement
                             .querySelector(".content-bg-color")
-                            .classList.add("content-bg-color-anim2");
+                            .classList.add("enable-animation");
                     }, 400);
                 }, 1);
-            }, 1); */
+            }
         },
 
         setActiveFeature(feature) {
@@ -298,7 +278,7 @@ export default {
             feature.title.data.active = true;
             this.activeFeature = feature;
             this.borderAnim();
-            //this.sectionCtrl.update(this.section); this one was preventing the update of the color
+            // this.sectionCtrl.update(this.section); //this one was preventing the update of the color
         },
 
         getNewWwObj() {
@@ -338,9 +318,6 @@ export default {
 
         addNewFeature(options) {
             // wrong index
-            console.log(this.section.data.features.length);
-            console.log("window.innerHeigh", window.innerHeigh);
-            console.log("options.index:", options.index);
             this.section.data.features.splice(
                 options.index,
                 0,
