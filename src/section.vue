@@ -7,7 +7,7 @@
             <wwObject class="background" :ww-object="section.data.background" ww-category="background"></wwObject>
             <!--TOP WWOBJS-->
             <div class="top-ww-objs">
-                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.topWwObjs" class="top-ww-obj" @ww-add="add(section.data.topWwObjs, $event)" @ww-remove="remove(section.data.topWwObjs, $event)">
+                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.topWwObjs" @ww-add="add(section.data.topWwObjs, $event)" @ww-remove="remove(section.data.topWwObjs, $event)">
                     <wwObject v-for="topWwObj in section.data.topWwObjs" :key="topWwObj.uniqueId" :ww-object="topWwObj"></wwObject>
                 </wwLayoutColumn>
             </div>
@@ -15,9 +15,9 @@
             <div class="row">
                 <div class="features-container container-margin container-size">
                     <div class="features">
-                        <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features" class="top-ww-obj" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
+                        <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
                             <div v-for="feature in section.data.features" :key="feature.uniqueId" class="feature">
-                                <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" :style="getActiveStyle(feature.title.data.active)" @click="setActiveFeature(feature)">
+                                <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" @click="setActiveFeature(feature)">
                                     <wwObject tag="div" v-bind:ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
                                 </div>
                                 <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" :style="{'border-color': section.data.activeBorderColorValue}">
@@ -43,7 +43,7 @@
             </div>
             <!--BOTTOM WWOBJS-->
             <div class="bottom-ww-objs">
-                <wwLayoutColumn tag="div" ww-default="ww-imgae" :ww-list="section.data.bottomWwObjs" class="top-ww-obj" @ww-add="add(section.data.bottomWwObjs, $event)" @ww-remove="remove(section.data.bottomWwObjs, $event)">
+                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.bottomWwObjs" @ww-add="add(section.data.bottomWwObjs, $event)" @ww-remove="remove(section.data.bottomWwObjs, $event)">
                     <wwObject v-for="bottomWwObjs in section.data.bottomWwObjs" :key="bottomWwObjs.uniqueId" :ww-object="bottomWwObjs"></wwObject>
                 </wwLayoutColumn>
             </div>
@@ -97,8 +97,6 @@ export default {
                 this.section.data.activeBgButtonColorValue || "#9AD575";
             this.section.data.activeBorderColorValue =
                 this.section.data.activeBorderColorValue || "#54AB26";
-
-            /* this.setActiveFeature(this.section.data.activeFeature); */
             this.section.data = this.section.data || {};
 
             if (!this.section.data.background) {
@@ -149,8 +147,6 @@ export default {
         },
         init() {
             this.setActiveFeature(this.section.data.activeFeature);
-            /* this.sectionCtrl.update(this.section); */
-
             // CUSTOM OPTIONS (colors)
             // setTimeout(function () {
             //     registerOptionsPopup(this.openCustomPopup);
@@ -277,7 +273,6 @@ export default {
             feature.title.data.active = true;
             this.activeFeature = feature;
             this.borderAnim();
-            this.featureAnim();
             // this.sectionCtrl.update(this.section); //this one was preventing the update of the color
         },
 
@@ -330,40 +325,11 @@ export default {
             this.sectionCtrl.update(this.section);
         },
 
-        getActiveStyle(active) {
-            if (active) {
-                return {
-                    "background-color": this.section.data
-                        .activeBgButtonColorValue,
-                    "border-color": this.section.data.activeBorderColorValue
-                };
-            } else {
-                return {
-                    "background-color": "#FFFFFF",
-                    "border-color": this.section.data.borderColorValue
-                };
-            }
-        },
-        featureAnim() {
-            let sectionElement = this.$el;
-
-            if (this.$el) {
-                setTimeout(function() {
-                    sectionElement
-                        .querySelector(".active")
-                        .classList.remove("enable-feature-animation");
-                    setTimeout(function() {
-                        sectionElement
-                            .querySelector(".active")
-                            .classList.add("enable-feature-animation");
-                    }, 100);
-                }, 1);
-            }
-        },
         add(list, options) {
             list.splice(options.index, 0, options.wwObject);
             this.sectionCtrl.update(this.section);
         },
+
         remove(list, options) {
             list.splice(options.index, 1);
             this.sectionCtrl.update(this.section);
@@ -376,9 +342,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- Add lang="scss" or others to use computed CSS -->
 <style scoped>
+/*  the margin top is because the content is have a translateY(-20)*/
 .feature_E .row {
     margin-right: 10px;
     margin-left: 10px;
+    margin-top: 40px;
     position: relative;
 }
 .feature_E .container {
@@ -402,11 +370,6 @@ export default {
 
 .feature_E .top-ww-objs,
 .feature_E .bottom-ww-objs {
-    position: relative;
-}
-
-.feature_E .top-ww-obj,
-.feature_E .bottom-ww-obj {
     position: relative;
 }
 
@@ -476,6 +439,7 @@ export default {
     border-bottom-right-radius: 20px;
     cursor: pointer;
     pointer-events: all;
+    transition: all 0.3s ease;
 }
 
 .feature_E .feature-title.active {
@@ -518,28 +482,6 @@ export default {
     transform-origin: 0% 50%;
 }
 
-.feature_E .enable-feature-animation {
-    animation: feature-animation 0.6s forwards;
-}
-
-@keyframes feature-animation {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes feature-animation {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 .feature_E .enable-animation {
     animation: content-bg-color-animation 0.6s forwards;
 }
@@ -557,17 +499,6 @@ export default {
     100% {
         transform: scale(1, 1);
         opacity: 1;
-    }
-}
-@-webkit-keyframes content-bg-color-animation {
-    0% {
-        transform: scale(1, 0);
-    }
-    50% {
-        transform: scale(0.1, 1);
-    }
-    100% {
-        transform: scale(1, 1);
     }
 }
 
