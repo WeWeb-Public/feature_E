@@ -287,7 +287,7 @@ export default {
                         tag: "div",
                         font: "",
                         size: "",
-                        text: { fr_FR: "Mon titre" },
+                        text: { fr: "Mon titre" },
                         align: "center",
                         color: "",
                         classes: [],
