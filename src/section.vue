@@ -1,13 +1,20 @@
 <template>
     <div class="feature_E">
         <!-- wwManager:start -->
-        <wwSectionEditMenu :sectionCtrl="sectionCtrl"></wwSectionEditMenu>
+        <wwSectionEditMenu :sectionCtrl="sectionCtrl" :options="openOptions"></wwSectionEditMenu>
         <!-- wwManager:end -->
         <div class="feature_E section-side-padding">
             <wwObject class="background" :ww-object="section.data.background" ww-category="background"></wwObject>
             <!--TOP WWOBJS-->
             <div class="top-ww-objs">
-                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.topWwObjs" @ww-add="add(section.data.topWwObjs, $event)" @ww-remove="remove(section.data.topWwObjs, $event)">
+                <wwLayoutColumn
+                    tag="div"
+                    ww-default="ww-image"
+                    :ww-list="section.data.topWwObjs"
+                    class="top-ww-obj"
+                    @ww-add="add(section.data.topWwObjs, $event)"
+                    @ww-remove="remove(section.data.topWwObjs, $event)"
+                >
                     <wwObject v-for="topWwObj in section.data.topWwObjs" :key="topWwObj.uniqueId" :ww-object="topWwObj"></wwObject>
                 </wwLayoutColumn>
             </div>
@@ -15,14 +22,19 @@
             <div class="row">
                 <div class="features-container container-margin container-size">
                     <div class="features">
-                        <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
+                        <!-- wwManager:start -->
+                        <wwContextMenu tag="div" class="contextmenu" v-if="editMode" @ww-add="addNewFeature($event)" @ww-remove="removeFeature($event)">
+                            <div class="wwi wwi-config"></div>
+                        </wwContextMenu>
+                        <!-- wwManager:end -->
+                        <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features">
                             <div v-for="feature in section.data.features" :key="feature.uniqueId" class="feature">
-                                <div class="feature-title" v-bind:class="{'active': feature.title.data.active}" @click="setActiveFeature(feature)">
-                                    <wwObject tag="div" v-bind:ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
+                                <div class="feature-title" :class="{'active': feature.activeTitle}" @click="setActiveFeature(feature)">
+                                    <wwObject tag="div" :ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
                                 </div>
-                                <div class="xs-content" v-bind:class="{'active': feature.title.data.active}" :style="{'border-color': section.data.activeBorderColorValue}">
+                                <div class="xs-content" :class="{'active': feature.activeTitle}" :style="{'border-color': section.data.activeButtonBorderColor}">
                                     <div v-for="content in activeFeature.contents" :key="content.uniqueId" class="feature-content">
-                                        <wwObject tag="div" v-bind:ww-object="content"></wwObject>
+                                        <wwObject tag="div" :ww-object="content"></wwObject>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +45,14 @@
                             <div class="clearfix"></div>
                             <div class="content-bg-color confirm-border" :style="{'background-color': section.data.activeBorderColorValue}"></div>
                             <div class="content-container">
-                                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="activeFeature.contents" class="feature-content" @ww-add="add(activeFeature.contents, $event)" @ww-remove="remove(activeFeature.contents, $event)">
+                                <wwLayoutColumn
+                                    tag="div"
+                                    ww-default="ww-text"
+                                    :ww-list="activeFeature.contents"
+                                    class="feature-content"
+                                    @ww-add="add(activeFeature.contents, $event)"
+                                    @ww-remove="remove(activeFeature.contents, $event)"
+                                >
                                     <wwObject v-for="content in activeFeature.contents" :key="content.uniqueId" :ww-object="content"></wwObject>
                                 </wwLayoutColumn>
                             </div>
@@ -43,8 +62,15 @@
             </div>
             <!--BOTTOM WWOBJS-->
             <div class="bottom-ww-objs">
-                <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.bottomWwObjs" @ww-add="add(section.data.bottomWwObjs, $event)" @ww-remove="remove(section.data.bottomWwObjs, $event)">
-                    <wwObject v-for="bottomWwObjs in section.data.bottomWwObjs" :key="bottomWwObjs.uniqueId" :ww-object="bottomWwObjs"></wwObject>
+                <wwLayoutColumn
+                    tag="div"
+                    ww-default="ww-image"
+                    :ww-list="section.data.bottomWwObjs"
+                    class="top-ww-obj"
+                    @ww-add="add(section.data.bottomWwObjs, $event)"
+                    @ww-remove="remove(section.data.bottomWwObjs, $event)"
+                >
+                    <wwObject v-for="bottomWwObj in section.data.bottomWwObjs" :key="bottomWwObj.uniqueId" :ww-object="bottomWwObj"></wwObject>
                 </wwLayoutColumn>
             </div>
         </div>
@@ -55,7 +81,7 @@
 <!-- ✨ Here comes the magic ✨ -->
 <script>
 export default {
-    name: "feature_E",
+    name: "__COMPONENT_NAME__",
     props: {
         // The section object is passed to you.
         // It contains all the info and data about the section
@@ -72,7 +98,10 @@ export default {
     computed: {
         section() {
             return this.sectionCtrl.get();
-        }
+        },
+        editMode() {
+            return this.sectionCtrl.getEditMode() == 'CONTENT'
+        },
     },
     created() {
         this.initData();
@@ -90,13 +119,23 @@ export default {
                 this.getNewFeature()
             ];
 
+
             this.section.data.activeFeature = this.section.data.features[0];
             this.section.data.borderColorValue =
                 this.section.data.borderColorValue || "#54AB26";
             this.section.data.activeBgButtonColorValue =
                 this.section.data.activeBgButtonColorValue || "#9AD575";
+
+
             this.section.data.activeBorderColorValue =
                 this.section.data.activeBorderColorValue || "#54AB26";
+
+            this.section.data.defaultButtonBorderColor =
+                this.section.data.defaultButtonBorderColor || "#54AB26";
+
+            this.section.data.activeButtonBorderColor =
+                this.section.data.activeButtonBorderColor || "#54AB26";
+
             this.section.data = this.section.data || {};
 
             if (!this.section.data.background) {
@@ -129,17 +168,14 @@ export default {
                 });
                 needUpdate = true;
             }
-
             if (_.isEmpty(this.section.data.topWwObjs)) {
                 this.section.data.topWwObjs = [];
                 needUpdate = true;
             }
-
             if (_.isEmpty(this.section.data.bottomWwObjs)) {
                 this.section.data.bottomWwObjs = [];
                 needUpdate = true;
             }
-
             this.setActiveFeature(this.section.data.activeFeature);
             if (needUpdate) {
                 this.sectionCtrl.update(this.section);
@@ -147,112 +183,18 @@ export default {
         },
         init() {
             this.setActiveFeature(this.section.data.activeFeature);
-            // CUSTOM OPTIONS (colors)
-            // setTimeout(function () {
-            //     registerOptionsPopup(this.openCustomPopup);
-            // }, 1);
-            // wwLib.wwPopupStory.registerStory({
-            //     POPUP_FEATURE_E_COLORS: {
-            //         title: wwLib.wwManagerLang.get("popups.CONFIGURATION.configuration"),
-            //         type: wwLib.wwPopupStory.types.FORM,
-            //         buttons: [
-            //             {
-            //                 text: wwLib.wwManagerLang.get("popups.ok"),
-            //                 class: [
-            //                     "ww-footer-btn btn-animated-icon ww-font-title ww-btn-bg-red"
-            //                 ],
-            //                 action: {
-            //                     type: wwLib.wwPopupStory.buttonActions.RETURN
-            //                 }
-            //             }
-            //         ],
-            //         data: {
-            //             BORDER_COLOR_VALUE: {
-            //                 type: wwLib.wwPopupStory.formTypes.COLOR,
-            //                 text: wwLib.wwManagerLang.get("sections.feature_E.borderColor"),
-            //                 key: "borderColorValue"
-            //             },
-            //             ACTIVE_BORDER_COLOR_VALUE: {
-            //                 type: wwLib.wwPopupStory.formTypes.COLOR,
-            //                 text: wwLib.wwManagerLang.get(
-            //                     "sections.feature_E.activeBorderColor"
-            //                 ),
-            //                 key: "activeBorderColorValue"
-            //             },
-            //             BG_BUTTON_COLOR_VALUE: {
-            //                 type: wwLib.wwPopupStory.formTypes.COLOR,
-            //                 text: wwLib.wwManagerLang.get(
-            //                     "sections.feature_E.activeBgButtonColor"
-            //                 ),
-            //                 key: "activeBgButtonColorValue"
-            //             }
-            //         }
-            //     }
-            // });
-            // REGISTER ANIMATIONS
-            // setTimeout(function () {
-            //     wwLib.wwCustomCSS.registerScrollElement({
-            //         element: this.$el.querySelector(".content-bg-color"),
-            //         fn: this.borderAnim()
-            //     });
-            // }, 1);
             this.$emit("ctrl-ready", "feature_E");
-        },
-        openCustomPopup() {
-            let options = {};
-
-            options.columnCount = parseInt(this.data.columnCount) + 0;
-
-            options.firstPage = "POPUP_FEATURE_E_COLORS";
-
-            options.wwObject = { content: { data: {} } };
-            options.wwObject.content.data.activeBgButtonColorValue = this.data.activeBgButtonColorValue;
-            options.wwObject.content.data.borderColorValue = this.data.borderColorValue;
-            options.wwObject.content.data.unactiveBorderColorValue = this.data.unactiveBorderColorValue;
-
-            wwLib.wwPopup
-                .open(options)
-                .then(function(result) {
-                    console.log("LE RESULTAT !!!", result);
-
-                    let borderColorValue = wwLib.wwPopup.getValue(
-                        result,
-                        "borderColorValue"
-                    );
-                    if (borderColorValue) {
-                        this.data.borderColorValue = borderColorValue;
-                    }
-
-                    let activeBorderColorValue = wwLib.wwPopup.getValue(
-                        result,
-                        "activeBorderColorValue"
-                    );
-                    if (activeBorderColorValue) {
-                        this.data.activeBorderColorValue = activeBorderColorValue;
-                    }
-
-                    let activeBgButtonColorValue = wwLib.wwPopup.getValue(
-                        result,
-                        "activeBgButtonColorValue"
-                    );
-                    if (activeBgButtonColorValue) {
-                        this.data.activeBgButtonColorValue = activeBgButtonColorValue;
-                    }
-                })
-                .catch(function(error) {
-                    console.log("ERROR : ", error);
-                });
         },
 
         borderAnim() {
             let sectionElement = this.$el;
 
             if (this.$el) {
-                setTimeout(function() {
+                setTimeout(function () {
                     sectionElement
                         .querySelector(".content-bg-color")
                         .classList.remove("enable-animation");
-                    setTimeout(function() {
+                    setTimeout(function () {
                         sectionElement
                             .querySelector(".content-bg-color")
                             .classList.add("enable-animation");
@@ -260,21 +202,118 @@ export default {
                 }, 1);
             }
         },
+        async openOptions() {
+            try {
 
+                wwLib.wwPopups.addStory('WWFEATURE_CUSTOM', {
+                    title: {
+                        en: 'Fill in code',
+                        fr: 'Inserer le code'
+                    },
+                    type: 'wwPopupForm',
+                    storyData: {
+                        fields: [
+                            {
+                                label: {
+                                    en: 'Button border color:',
+                                    fr: 'Couleur de la bordure :'
+                                },
+                                type: 'color',
+                                key: 'defaultButtonBorderColor',
+                                valueData: 'section.data.defaultButtonBorderColor',
+                                desc: {
+                                    en: 'Choose the default color of the button border color:',
+                                    fr: 'Changer la couleur par default de la bordure du bouton :'
+                                },
+                            },
+                            {
+                                label: {
+                                    en: 'Border color after clic:',
+                                    fr: 'Couleur de la bordure après le clic :'
+                                },
+                                type: 'color',
+                                key: 'contentBorderColor',
+                                valueData: 'section.data.activeBorderColorValue',
+                                desc: {
+                                    en: 'Choose the border color of the banner',
+                                    fr: 'Couleur de la bordure de la bannière:'
+                                },
+                            },
+                            {
+                                label: {
+                                    en: 'Active button color:',
+                                    fr: 'Couleur du bouton actif :'
+                                },
+                                type: 'color',
+                                key: 'activeButtonBorderColor',
+                                valueData: 'section.data.activeButtonBorderColor',
+                                desc: {
+                                    en: 'Choose the color of the active button border color:',
+                                    fr: 'Changer la couleur de la bordure du bouton actif :'
+                                },
+                            },
+
+                        ]
+                    },
+                    buttons: {
+                        NEXT: {
+                            text: {
+                                en: 'Finish',
+                                fr: 'Terminer'
+                            },
+                            next: null
+                        }
+                    }
+                })
+                let options = {
+                    firstPage: 'WWFEATURE_CUSTOM',
+                    data: {
+                        section: this.section,
+                    },
+                }
+
+                const result = await wwLib.wwPopups.open(options)
+                let needUpdate = false
+                if (typeof (result) != 'undefined') {
+                    if (typeof (result.defaultButtonBorderColor) != 'undefined') {
+                        this.section.data.defaultButtonBorderColor = result.defaultButtonBorderColor
+                        needUpdate = true
+                    }
+                    if (typeof (result.contentBorderColor) != 'undefined') {
+                        this.section.data.activeBorderColorValue = result.contentBorderColor
+                        needUpdate = true
+                    }
+                    if (typeof (result.activeButtonBorderColor) != 'undefined') {
+                        this.section.data.activeButtonBorderColor = result.activeButtonBorderColor
+                        needUpdate = true
+                    }
+                    if (needUpdate) {
+                        this.sectionCtrl.update(this.section);
+                    }
+                }
+            } catch (error) {
+                wwLib.wwLog.error('ERROR : ', error);
+            }
+        },
         setActiveFeature(feature) {
             // MANGE ACTIVE CLASS
             let currentActiveFeature;
             for (let _feature of this.section.data.features) {
-                if (_feature.title && _feature.title.data.active) {
-                    _feature.title.data.active = false;
-                    _feature.title.data.bgButtonColorValue = false;
+                if (_feature.title) {
+                    _feature.activeTitle = false;
+                    _feature.bgButtonColorValue = false;
                 }
             }
-            feature.title.data.active = true;
+            feature.activeTitle = true;
             this.activeFeature = feature;
-            this.borderAnim();
+
             // this.sectionCtrl.update(this.section); //this one was preventing the update of the color
+            this.sectionCtrl.update(this.section);
+            this.borderAnim();
+
         },
+
+
 
         getNewWwObj() {
             return {
@@ -304,8 +343,14 @@ export default {
         getNewFeature(wwObject) {
             let self = this;
             let feature = {
-                title: wwObject || self.getNewWwObj(),
-                contents: [self.getNewWwObj()],
+                activeTitle: false,
+                bgButtonColorValue: false,
+                title: wwLib.wwObject.getDefault({
+                    type: "ww-text"
+                }),
+                contents: [wwLib.wwObject.getDefault({
+                    type: "ww-text"
+                })],
                 uniqueId: wwLib.wwUtils.getUniqueId()
             };
             return feature;
@@ -341,7 +386,7 @@ export default {
 <!-- This is your CSS -->
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- Add lang="scss" or others to use computed CSS -->
-<style scoped>
+<style lang='scss' scoped>
 /*  the margin top is because the content is have a translateY(-20)*/
 .feature_E .row {
     margin-right: 10px;
@@ -367,10 +412,13 @@ export default {
     top: 0;
     left: 0;
 }
-
-.feature_E .top-ww-objs,
-.feature_E .bottom-ww-objs {
+.top-ww-objs,
+.bottom-ww-objs {
     position: relative;
+    .top-ww-obj,
+    .bottom-ww-obj {
+        position: relative;
+    }
 }
 
 .feature_E .remove-ww-obj {
@@ -475,7 +523,6 @@ export default {
 
 .feature_E .content-bg-color {
     position: absolute;
-    background-color: #51ad14;
     width: 50%;
     height: 100%;
     /* transform: scale(0, 0) */
@@ -631,5 +678,25 @@ export default {
         width: 750px;
     }
 }
+/* wwManager:start */
+
+.contextmenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    color: white;
+    background-color: #ef811a;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* wwManager:end */
 </style>
 
