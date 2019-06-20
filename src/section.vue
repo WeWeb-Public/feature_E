@@ -3,7 +3,7 @@
         <!-- wwManager:start -->
         <wwSectionEditMenu :sectionCtrl="sectionCtrl" :options="openOptions"></wwSectionEditMenu>
         <!-- wwManager:end -->
-        <div class="feature_E section-side-padding">
+        <div class="feature_E">
             <wwObject class="background" :ww-object="section.data.background" ww-category="background"></wwObject>
             <!--TOP WWOBJS-->
             <div class="top-ww-objs">
@@ -29,10 +29,15 @@
                         <!-- wwManager:end -->
                         <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features">
                             <div v-for="feature in section.data.features" :key="feature.uniqueId" class="feature">
-                                <div class="feature-title" :class="{'active': feature.activeTitle}" @click="setActiveFeature(feature)">
+                                <div
+                                    class="feature-title"
+                                    :class="{'active': feature.activeTitle}"
+                                    :style="{'background-color': section.data.activeButtonBgColorValue}"
+                                    @click="setActiveFeature(feature)"
+                                >
                                     <wwObject tag="div" :ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
                                 </div>
-                                <div class="xs-content" :class="{'active': feature.activeTitle}" :style="{'border-color': section.data.activeButtonBorderColor}">
+                                <div class="xs-content" :class="{'active-mobile': feature.activeTitle}" :style="{'border-color': section.data.activeButtonBorderColor}">
                                     <div v-for="content in activeFeature.contents" :key="content.uniqueId" class="feature-content">
                                         <wwObject tag="div" :ww-object="content"></wwObject>
                                     </div>
@@ -42,7 +47,6 @@
                     </div>
                     <div class="content">
                         <div class="content-mask">
-                            <div class="clearfix"></div>
                             <div class="content-bg-color confirm-border" :style="{'background-color': section.data.activeBorderColorValue}"></div>
                             <div class="content-container">
                                 <wwLayoutColumn
@@ -123,8 +127,8 @@ export default {
             this.section.data.activeFeature = this.section.data.features[0];
             this.section.data.borderColorValue =
                 this.section.data.borderColorValue || "#54AB26";
-            this.section.data.activeBgButtonColorValue =
-                this.section.data.activeBgButtonColorValue || "#9AD575";
+            this.section.data.activeButtonBgColorValue =
+                this.section.data.activeButtonBgColorValue || "#9AD575";
 
 
             this.section.data.activeBorderColorValue =
@@ -307,37 +311,8 @@ export default {
             feature.activeTitle = true;
             this.activeFeature = feature;
 
-            // this.sectionCtrl.update(this.section); //this one was preventing the update of the color
             this.sectionCtrl.update(this.section);
             this.borderAnim();
-
-        },
-
-
-
-        getNewWwObj() {
-            return {
-                data: {},
-                link: { data: {}, type: "none" },
-                ratio: 66.66666,
-                hidden: false,
-                content: {
-                    data: {
-                        tag: "div",
-                        font: "",
-                        size: "",
-                        text: { fr: "Mon titre" },
-                        align: "center",
-                        color: "",
-                        classes: [],
-                        children: []
-                    },
-                    type: "ww-text"
-                },
-                children: {},
-                uniqueId: wwLib.wwUtils.getUniqueId(),
-                wwVersion: 2
-            };
         },
 
         getNewFeature(wwObject) {
@@ -381,6 +356,7 @@ export default {
         }
     }
 };
+
 </script>
 
 <!-- This is your CSS -->
@@ -388,148 +364,213 @@ export default {
 <!-- Add lang="scss" or others to use computed CSS -->
 <style lang='scss' scoped>
 /*  the margin top is because the content is have a translateY(-20)*/
-.feature_E .row {
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 40px;
-    position: relative;
-}
-.feature_E .container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    padding: 0px;
-}
+.feature_E {
+    .background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
 
-.feature_E .container-size {
-    width: 100%;
-}
-
-.feature_E .background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-}
-.top-ww-objs,
-.bottom-ww-objs {
-    position: relative;
-    .top-ww-obj,
-    .bottom-ww-obj {
+    .top-ww-objs,
+    .bottom-ww-objs {
         position: relative;
+        .top-ww-obj,
+        .bottom-ww-obj {
+            position: relative;
+        }
+    }
+    .row {
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 40px;
+        position: relative;
+
+        .container-margin {
+            @media (min-width: 768px) {
+                left: -50%;
+                transform: translateX(10%);
+            }
+            @media (min-width: 992px) {
+                transform: translateX(30%);
+            }
+        }
+
+        .container-size {
+            width: 100%;
+
+            @media (min-width: 768px) {
+                width: 83.33333333%;
+            }
+            @media (min-width: 992px) {
+                width: 66.66666667%;
+            }
+            @media (min-width: 1400px) {
+                width: 60%;
+            }
+        }
+        .features-container {
+            display: flex;
+            transition: all 0.4s ease-out;
+            justify-content: center;
+
+            .features {
+                padding-top: 10px;
+                flex-basis: 350px;
+                @media (min-width: 768px) {
+                    flex-basis: 235px;
+                }
+                @media (min-width: 992px) {
+                    flex-basis: 205px;
+                }
+                @media (min-width: 1400px) {
+                    flex-basis: 400px;
+                }
+                /* wwManager:start */
+
+                .contextmenu {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 30px;
+                    height: 30px;
+                    color: white;
+                    background-color: #ef811a;
+                    border-radius: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                    z-index: 2;
+                }
+
+                /* wwManager:end */
+
+                .feature {
+                    .feature-title {
+                        position: relative;
+                        width: 90%;
+                        margin-left: 5%;
+                        background-color: white;
+                        padding: 10px 20px;
+                        border: 1px solid rgba(82, 173, 20, 1);
+                        border-top-left-radius: 20px;
+                        border-bottom-left-radius: 20px;
+                        border-bottom-right-radius: 20px;
+                        cursor: pointer;
+                        pointer-events: all;
+                        transition: all 0.3s ease;
+                        @media (min-width: 768px) {
+                            width: 100%;
+                            margin-left: 0;
+                            border-right: 0;
+                            border-bottom-right-radius: 0;
+                        }
+                    }
+
+                    .active-mobile {
+                        display: block;
+                        background-color: white;
+                        margin-top: -20px;
+                        margin-bottom: 20px;
+                        border: 1px solid rgba(82, 173, 20, 1);
+                        border-radius: 4px;
+                        padding: 40px 15px;
+                    }
+                    .xs-content {
+                        @media (min-width: 768px) {
+                            display: none;
+                        }
+                        .feature-content {
+                            position: relative;
+                        }
+                    }
+                }
+            }
+            .feature + .feature {
+                margin-top: 40px;
+            }
+            .feature:last-of-type {
+                margin-bottom: 50px;
+            }
+
+            .content {
+                display: none;
+                background-color: rgba(0, 0, 0, 0);
+                width: 300px;
+                border-radius: 30px;
+                position: relative;
+                @media (min-width: 768px) {
+                    display: table-cell;
+                    width: 350px;
+                    transform: translateY(-20px);
+                }
+                @media (min-width: 992px) {
+                    width: 400px;
+                }
+                @media (min-width: 1100px) {
+                    width: 450px;
+                }
+                @media (min-width: 1200px) {
+                    width: 500px;
+                }
+                @media (min-width: 1300px) {
+                    width: 550px;
+                }
+                @media (min-width: 1400px) {
+                    width: 600px;
+                }
+                @media (min-width: 1500px) {
+                    width: 650px;
+                }
+                @media (min-width: 1600px) {
+                    width: 700px;
+                }
+                @media (min-width: 1700px) {
+                    width: 750px;
+                }
+
+                .content-mask {
+                    border-radius: 33px;
+                    overflow: hidden;
+                    transform: translateZ(0);
+                    height: 100%;
+                    .content-bg-color {
+                        position: absolute;
+                        width: 50%;
+                        height: 100%;
+                        transform-origin: 0% 50%;
+                    }
+                    .confirm-border {
+                        border-radius: 33px 0 0 33px;
+                    }
+                    .content-container {
+                        background-color: white;
+                        position: relative;
+                        margin: 4px;
+                        height: calc(100% - 8px);
+                        border-radius: 30px;
+                        padding: 40px;
+                        box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
+                        .feature-content {
+                            position: relative;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
-.feature_E .remove-ww-obj {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%);
-    height: 30px;
-    width: 30px;
-    background-color: white;
-    color: #92979c;
-    box-shadow: 0px 1px 1px 0px #656565;
-
-    border-radius: 100%;
-    text-align: center;
-    line-height: 30px;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.feature_E .add-ww-obj-container {
-    text-align: center;
-    margin: 10px 0;
-}
-
-.feature_E .add-ww-obj-container .add-ww-obj {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    line-height: 40px;
-    text-align: center;
-    background-color: white;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.feature_E .features-container {
-    display: flex;
-    transition: all 0.4s ease-out;
-    justify-content: center;
-}
-
-.feature_E .features-container .features {
-    padding-top: 10px;
-    flex-basis: 350px;
-}
-
-.feature + .feature {
-    margin-top: 40px;
-}
-
-.feature:last-of-type {
-    margin-bottom: 50px;
-}
-
-.feature_E .feature-title {
-    position: relative;
-    width: 90%;
-    margin-left: 5%;
-    background-color: white;
-    padding: 10px 20px;
-    border: 1px solid rgba(82, 173, 20, 1);
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    cursor: pointer;
-    pointer-events: all;
-    transition: all 0.3s ease;
-}
-
-.feature_E .feature-title.active {
+.feature_E .feature_E .feature-title.active {
     background-color: #99d670;
     color: white;
     margin-bottom: 0;
 }
 
-.feature_E .features-container .content {
-    display: none;
-    background-color: rgba(0, 0, 0, 0);
-    width: 300px;
-    border-radius: 30px;
-    position: relative;
-}
-
-.feature_E .content-mask {
-    border-radius: 33px;
-    overflow: hidden;
-    transform: translateZ(0);
-    height: 100%;
-}
-
-.feature_E .features-container .content-container {
-    background-color: white;
-    position: relative;
-    margin: 4px;
-    height: calc(100% - 8px);
-    border-radius: 30px;
-    padding: 40px;
-    box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-.feature_E .content-bg-color {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    /* transform: scale(0, 0) */
-    transform-origin: 0% 50%;
-}
-
-.feature_E .enable-animation {
+.enable-animation {
     animation: content-bg-color-animation 0.6s forwards;
 }
 
@@ -548,155 +589,5 @@ export default {
         opacity: 1;
     }
 }
-
-.feature_E .content-bg-color-anim1 {
-    transform: scale(0.1, 1);
-    transition: all 0.4s ease-in;
-}
-
-.feature_E .content-bg-color-anim2 {
-    transform: scale(1, 1);
-    transition: all 0.4s ease-out;
-}
-
-.feature_E .feature-content {
-    position: relative;
-}
-
-.feature_E .xs-content {
-    display: none;
-}
-
-.feature_E .xs-content.active {
-    display: block;
-    background-color: white;
-    margin-top: -20px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(82, 173, 20, 1);
-    border-radius: 4px;
-    padding: 40px 15px;
-}
-
-.feature_E .confirm-border {
-    border-radius: 33px 0 0 33px;
-}
-
-@media (min-width: 768px) {
-    .feature_E .features-container .features {
-        flex-basis: 235px;
-    }
-    .feature_E .xs-content {
-        display: none;
-    }
-    .feature_E .container-size {
-        width: 83.33333333%;
-    }
-    .feature_E .container-margin {
-        left: -50%;
-        transform: translateX(10%);
-    }
-
-    .feature_E .xs-content.active {
-        display: none;
-    }
-    .feature_E .features-container .content {
-        display: table-cell;
-    }
-    .feature_E .feature-title {
-        width: 100%;
-        margin-left: 0;
-        border-right: 0;
-        border-bottom-right-radius: 0;
-    }
-    .feature_E .features-container .content {
-        width: 350px;
-        transform: translateY(-20px);
-    }
-}
-
-@media (min-width: 992px) {
-    .feature_E .features-container .features {
-        flex-basis: 205px;
-    }
-
-    .feature_E .features-container .content {
-        width: 400px;
-    }
-
-    .feature_E .container-size {
-        width: 66.66666667%;
-    }
-    .feature_E .container-margin {
-        transform: translateX(30%);
-    }
-}
-
-@media (min-width: 1100px) {
-    .feature_E .features-container .content {
-        width: 450px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .feature_E .features-container .content {
-        width: 500px;
-    }
-}
-
-@media (min-width: 1300px) {
-    .feature_E .features-container .content {
-        width: 550px;
-    }
-}
-
-@media (min-width: 1400px) {
-    .feature_E .features-container .content {
-        width: 600px;
-    }
-    .feature_E .container-size {
-        width: 60%;
-    }
-    .feature_E .features-container .features {
-        flex-basis: 400px;
-    }
-}
-
-@media (min-width: 1500px) {
-    .feature_E .features-container .content {
-        width: 650px;
-    }
-}
-
-@media (min-width: 1600px) {
-    .feature_E .features-container .content {
-        width: 700px;
-    }
-}
-
-@media (min-width: 1700px) {
-    .feature_E .features-container .content {
-        width: 750px;
-    }
-}
-/* wwManager:start */
-
-.contextmenu {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 30px;
-    height: 30px;
-    color: white;
-    background-color: #ef811a;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    z-index: 2;
-}
-
-/* wwManager:end */
 </style>
 
