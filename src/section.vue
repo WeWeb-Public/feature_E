@@ -1,5 +1,5 @@
 <template>
-    <div class="feature_E">
+    <div class="feature_E" :style="customStyle">
         <!-- wwManager:start -->
         <wwSectionEditMenu :sectionCtrl="sectionCtrl" :options="openOptions"></wwSectionEditMenu>
         <!-- wwManager:end -->
@@ -13,6 +13,8 @@
                     :ww-list="section.data.topWwObjs"
                     class="top-ww-obj"
                     @ww-add="add(section.data.topWwObjs, $event)"
+                    @ww-add-after="add(section.data.topWwObjs, $event)"
+                    @ww-add-before="add(section.data.topWwObjs, $event)"
                     @ww-remove="remove(section.data.topWwObjs, $event)"
                 >
                     <wwObject v-for="topWwObj in section.data.topWwObjs" :key="topWwObj.uniqueId" :ww-object="topWwObj"></wwObject>
@@ -29,15 +31,10 @@
                         <!-- wwManager:end -->
                         <wwLayoutColumn tag="div" ww-default="ww-text" :ww-list="section.data.features">
                             <div v-for="feature in section.data.features" :key="feature.uniqueId" class="feature">
-                                <div
-                                    class="feature-title"
-                                    :class="{'active': feature.activeTitle}"
-                                    :style="{'background-color': section.data.activeButtonBgColorValue}"
-                                    @click="setActiveFeature(feature)"
-                                >
+                                <div class="feature-title" :class="{'active': feature.activeTitle}" @click="setActiveFeature(feature)">
                                     <wwObject tag="div" :ww-object="feature.title" ww-object-types-allowed="['text']"></wwObject>
                                 </div>
-                                <div class="xs-content" :class="{'active-mobile': feature.activeTitle}" :style="{'border-color': section.data.activeButtonBorderColor}">
+                                <div class="xs-content" :class="{'active-mobile': feature.activeTitle}" :style="{'border-color': section.data.activeButtonColor}">
                                     <div v-for="content in activeFeature.contents" :key="content.uniqueId" class="feature-content">
                                         <wwObject tag="div" :ww-object="content"></wwObject>
                                     </div>
@@ -47,7 +44,8 @@
                     </div>
                     <div class="content">
                         <div class="content-mask">
-                            <div class="content-bg-color confirm-border" :style="{'background-color': section.data.activeBorderColorValue}"></div>
+                            <div class="content-bg-color confirm-border"></div>
+
                             <div class="content-container">
                                 <wwLayoutColumn
                                     tag="div"
@@ -106,6 +104,17 @@ export default {
         editMode() {
             return this.sectionCtrl.getEditMode() == 'CONTENT'
         },
+        customStyle() {
+            return {
+                '--cardBorderRadius': this.section.data.cardBorderRadius + 'px',
+                '--shadowConfig': this.section.data.shadowConfig,
+
+                '--defaultButtonColor': this.section.data.defaultButtonColor,
+                '--contentBackground': this.section.data.contentBackground,
+                '--activeBorderColorValue': this.section.data.activeBorderColorValue,
+                '--activeButtonColor': this.section.data.activeButtonColor,
+            }
+        }
     },
     created() {
         this.initData();
@@ -127,20 +136,24 @@ export default {
             this.section.data.activeFeature = this.section.data.features[0];
             wwLib.wwUtils.changeUniqueIds(this.section.data.activeFeature)
 
-            this.section.data.borderColorValue =
-                this.section.data.borderColorValue || "#54AB26";
-            this.section.data.activeButtonBgColorValue =
-                this.section.data.activeButtonBgColorValue || "#9AD575";
+            this.section.data.defaultButtonColor =
+                this.section.data.defaultButtonColor || "#FFFFFF";
 
+            this.section.data.contentBackground =
+                this.section.data.contentBackground || "#FFFFFF";
+
+            this.section.data.activeButtonColor =
+                this.section.data.activeButtonColor || "#54AB26";
 
             this.section.data.activeBorderColorValue =
                 this.section.data.activeBorderColorValue || "#54AB26";
 
-            this.section.data.defaultButtonBorderColor =
-                this.section.data.defaultButtonBorderColor || "#54AB26";
+            /* shadow and border radius */
+            this.section.data.shadowConfig =
+                this.section.data.shadowConfig || "0 10px 40px 0 rgba(113, 124, 137, 0.2)";
 
-            this.section.data.activeButtonBorderColor =
-                this.section.data.activeButtonBorderColor || "#54AB26";
+            this.section.data.cardBorderRadius =
+                this.section.data.cardBorderRadius || 30;
 
             this.section.data = this.section.data || {};
 
@@ -208,9 +221,9 @@ export default {
                 }, 1);
             }
         },
+
         async openOptions() {
             try {
-
                 wwLib.wwPopups.addStory('WWFEATURE_CUSTOM', {
                     title: {
                         en: 'Fill in code',
@@ -221,17 +234,18 @@ export default {
                         fields: [
                             {
                                 label: {
-                                    en: 'Button border color:',
-                                    fr: 'Couleur de la bordure :'
+                                    en: 'Default button color:',
+                                    fr: 'Couleur par default du bouton :'
                                 },
                                 type: 'color',
-                                key: 'defaultButtonBorderColor',
-                                valueData: 'section.data.defaultButtonBorderColor',
+                                key: 'defaultButtonColor',
+                                valueData: 'section.data.defaultButtonColor',
                                 desc: {
                                     en: 'Choose the default color of the button border color:',
                                     fr: 'Changer la couleur par default de la bordure du bouton :'
                                 },
                             },
+
                             {
                                 label: {
                                     en: 'Border color after clic:',
@@ -247,16 +261,55 @@ export default {
                             },
                             {
                                 label: {
+                                    en: 'Banner background color:',
+                                    fr: 'Couleur de fond de la bannière :'
+                                },
+                                type: 'color',
+                                key: 'contentBackground',
+                                valueData: 'section.data.contentBackground',
+                                desc: {
+                                    en: 'The background color of the banner',
+                                    fr: 'Couleur du background de la bannière:'
+                                },
+                            },
+                            {
+                                label: {
                                     en: 'Active button color:',
                                     fr: 'Couleur du bouton actif :'
                                 },
                                 type: 'color',
-                                key: 'activeButtonBorderColor',
-                                valueData: 'section.data.activeButtonBorderColor',
+                                key: 'activeButtonColor',
+                                valueData: 'section.data.activeButtonColor',
                                 desc: {
                                     en: 'Choose the color of the active button border color:',
                                     fr: 'Changer la couleur de la bordure du bouton actif :'
                                 },
+                            },
+                            {
+                                label: {
+                                    en: 'Shadow config:',
+                                    fr: 'Configuration de l\'ombre :'
+                                },
+                                type: 'text',
+                                key: 'shadowConfig',
+                                valueData: 'shadowConfig',
+                                desc: {
+                                    en: 'Example: 0 10px 40px 0 rgba(113, 124, 137, 0.2)',
+                                    fr: 'Exemple : 0 10px 40px 0 rgba(113, 124, 137, 0.2)'
+                                }
+                            },
+                            {
+                                label: {
+                                    en: 'Border radius in px:',
+                                    fr: 'Arrondis des coins en px :'
+                                },
+                                type: 'text',
+                                key: 'cardBorderRadius',
+                                valueData: 'cardBorderRadius',
+                                desc: {
+                                    en: 'Edit card border radius',
+                                    fr: 'Changer la bordure des coins des cartes'
+                                }
                             },
 
                         ]
@@ -281,18 +334,35 @@ export default {
                 const result = await wwLib.wwPopups.open(options)
                 let needUpdate = false
                 if (typeof (result) != 'undefined') {
-                    if (typeof (result.defaultButtonBorderColor) != 'undefined') {
-                        this.section.data.defaultButtonBorderColor = result.defaultButtonBorderColor
+                    if (typeof (result.defaultButtonColor) != 'undefined') {
+                        this.section.data.defaultButtonColor = result.defaultButtonColor
                         needUpdate = true
                     }
+
                     if (typeof (result.contentBorderColor) != 'undefined') {
                         this.section.data.activeBorderColorValue = result.contentBorderColor
                         needUpdate = true
                     }
-                    if (typeof (result.activeButtonBorderColor) != 'undefined') {
-                        this.section.data.activeButtonBorderColor = result.activeButtonBorderColor
+                    if (typeof (result.contentBackground) != 'undefined') {
+                        this.section.data.contentBackground = result.contentBackground
                         needUpdate = true
                     }
+
+                    if (typeof (result.activeButtonColor) != 'undefined') {
+                        this.section.data.activeButtonColor = result.activeButtonColor
+                        needUpdate = true
+                    }
+
+                    if (typeof (result.shadowConfig) != 'undefined') {
+                        this.section.data.shadowConfig = result.shadowConfig;
+                        updateSection = true;
+                    }
+
+                    if (typeof (result.cardBorderRadius) != 'undefined') {
+                        this.section.data.cardBorderRadius = result.cardBorderRadius;
+                        updateSection = true;
+                    }
+
                     if (needUpdate) {
                         this.sectionCtrl.update(this.section);
                     }
@@ -455,9 +525,10 @@ export default {
                         position: relative;
                         width: 90%;
                         margin-left: 5%;
-                        background-color: white;
+                        background-color: var(--defaultButtonColor);
                         padding: 10px 20px;
-                        border: 1px solid rgba(82, 173, 20, 1);
+                        border: 1px solid;
+                        border-color: var(--activeButtonColor);
                         border-top-left-radius: 20px;
                         border-bottom-left-radius: 20px;
                         border-bottom-right-radius: 20px;
@@ -471,6 +542,10 @@ export default {
                             border-bottom-right-radius: 0;
                         }
                     }
+                    .active {
+                        background-color: var(--activeButtonColor);
+                    }
+
                     .xs-content {
                         display: none;
                         .feature-content {
@@ -479,10 +554,12 @@ export default {
                     }
                     .active-mobile {
                         display: block;
-                        background-color: white;
+                        //background-color: white;
+                        background-color: var(--contentBackground);
                         margin-top: -20px;
                         margin-bottom: 20px;
-                        border: 1px solid rgba(82, 173, 20, 1);
+                        border: 1px solid;
+                        border-color: var(--activeButtonColor);
                         border-radius: 4px;
                         padding: 40px 15px;
                         @media (min-width: 768px) {
@@ -541,6 +618,7 @@ export default {
                     transform: translateZ(0);
                     height: 100%;
                     .content-bg-color {
+                        background-color: var(--activeBorderColorValue);
                         position: absolute;
                         width: 50%;
                         height: 100%;
@@ -549,14 +627,15 @@ export default {
                     .confirm-border {
                         border-radius: 33px 0 0 33px;
                     }
+
                     .content-container {
-                        background-color: white;
                         position: relative;
+                        background-color: var(--contentBackground);
                         margin: 4px;
                         height: calc(100% - 8px);
                         border-radius: 30px;
                         padding: 40px;
-                        box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
+                        box-shadow: var(--shadowConfig);
                         .feature-content {
                             position: relative;
                         }
