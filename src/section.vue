@@ -125,6 +125,8 @@ export default {
 
 
             this.section.data.activeFeature = this.section.data.features[0];
+            wwLib.wwUtils.changeUniqueIds(this.section.data.activeFeature)
+
             this.section.data.borderColorValue =
                 this.section.data.borderColorValue || "#54AB26";
             this.section.data.activeButtonBgColorValue =
@@ -469,7 +471,12 @@ export default {
                             border-bottom-right-radius: 0;
                         }
                     }
-
+                    .xs-content {
+                        display: none;
+                        .feature-content {
+                            position: relative;
+                        }
+                    }
                     .active-mobile {
                         display: block;
                         background-color: white;
@@ -478,13 +485,8 @@ export default {
                         border: 1px solid rgba(82, 173, 20, 1);
                         border-radius: 4px;
                         padding: 40px 15px;
-                    }
-                    .xs-content {
                         @media (min-width: 768px) {
                             display: none;
-                        }
-                        .feature-content {
-                            position: relative;
                         }
                     }
                 }
@@ -500,6 +502,7 @@ export default {
                 display: none;
                 background-color: rgba(0, 0, 0, 0);
                 width: 300px;
+                min-height: 300px;
                 border-radius: 30px;
                 position: relative;
                 @media (min-width: 768px) {
@@ -562,12 +565,6 @@ export default {
             }
         }
     }
-}
-
-.feature_E .feature_E .feature-title.active {
-    background-color: #99d670;
-    color: white;
-    margin-bottom: 0;
 }
 
 .enable-animation {
