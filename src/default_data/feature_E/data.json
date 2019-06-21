@@ -1,200 +1,200 @@
 {
     "features": [
         {
+            "activeTitle": false,
+            "bgButtonColorValue": false,
+            "title": {
+                "uniqueId": 14841415835,
+                "wwVersion": 3,
+                "content": {
+                    "type": "ww-text",
+                    "data": {
+                        "text": {
+                            "fr": "Nouveau texte",
+                            "en": "Ed ut perspiciatis\n"
+                        },
+                        "tag": "div",
+                        "align": "",
+                        "font": "",
+                        "size": "",
+                        "color": "",
+                        "classes": [],
+                        "children": []
+                    }
+                },
+                "link": {
+                    "type": "none",
+                    "data": {}
+                },
+                "ratio": -1,
+                "paddings": {
+                    "xs": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "md": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    }
+                },
+                "hidden": false,
+                "tags": [],
+                "children": {},
+                "data": {},
+                "anim": {}
+            },
+            "contents": [
+                {
+                    "uniqueId": 6492846291,
+                    "wwVersion": 3,
+                    "content": {
+                        "type": "ww-text",
+                        "data": {
+                            "text": {
+                                "fr": "Nouveau texte",
+                                "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--contentBackground);\"><font face=\"Open Sans, sans-serif\">Ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</font></span></div>"
+                            },
+                            "tag": "div",
+                            "align": "",
+                            "font": "",
+                            "size": "",
+                            "color": "",
+                            "classes": [],
+                            "children": []
+                        }
+                    },
+                    "link": {
+                        "type": "none",
+                        "data": {}
+                    },
+                    "ratio": -1,
+                    "paddings": {
+                        "xs": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        },
+                        "md": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        }
+                    },
+                    "hidden": false,
+                    "tags": [],
+                    "children": {},
+                    "data": {},
+                    "anim": {}
+                }
+            ],
+            "uniqueId": 10356922721
+        },
+        {
+            "activeTitle": false,
+            "bgButtonColorValue": false,
+            "title": {
+                "uniqueId": 8057883625,
+                "wwVersion": 3,
+                "content": {
+                    "type": "ww-text",
+                    "data": {
+                        "text": {
+                            "fr": "Nouveau texte",
+                            "en": "Voluptatem"
+                        },
+                        "tag": "div",
+                        "align": "",
+                        "font": "",
+                        "size": "",
+                        "color": "",
+                        "classes": [],
+                        "children": []
+                    }
+                },
+                "link": {
+                    "type": "none",
+                    "data": {}
+                },
+                "ratio": -1,
+                "paddings": {
+                    "xs": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "md": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    }
+                },
+                "hidden": false,
+                "tags": [],
+                "children": {},
+                "data": {},
+                "anim": {}
+            },
+            "contents": [
+                {
+                    "uniqueId": 13368487900,
+                    "wwVersion": 3,
+                    "content": {
+                        "type": "ww-text",
+                        "data": {
+                            "text": {
+                                "fr": "Nouveau texte",
+                                "en": "<div style=\"text-align: center;\"><span style=\"font-family: &quot;Open Sans&quot;, sans-serif; text-align: initial; background-color: var(--contentBackground);\">Voluptatem accusantium doloremque laudantium, totam rem aperiam. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span></div>"
+                            },
+                            "tag": "div",
+                            "align": "",
+                            "font": "",
+                            "size": "",
+                            "color": "",
+                            "classes": [],
+                            "children": []
+                        }
+                    },
+                    "link": {
+                        "type": "none",
+                        "data": {}
+                    },
+                    "ratio": -1,
+                    "paddings": {
+                        "xs": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        },
+                        "md": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        }
+                    },
+                    "hidden": false,
+                    "tags": [],
+                    "children": {},
+                    "data": {},
+                    "anim": {}
+                }
+            ],
+            "uniqueId": 1214470092
+        },
+        {
             "activeTitle": true,
             "bgButtonColorValue": false,
             "title": {
-                "uniqueId": 9671141975,
-                "wwVersion": 3,
-                "content": {
-                    "type": "ww-text",
-                    "data": {
-                        "text": {
-                            "fr": "Nouveau texte",
-                            "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--activeButtonColor);\">Ed ut perspiciatis</span></div>"
-                        },
-                        "tag": "div",
-                        "align": "",
-                        "font": "",
-                        "size": "",
-                        "color": "",
-                        "classes": [],
-                        "children": []
-                    }
-                },
-                "link": {
-                    "type": "none",
-                    "data": {}
-                },
-                "ratio": -1,
-                "paddings": {
-                    "xs": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    },
-                    "md": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    }
-                },
-                "hidden": false,
-                "tags": [],
-                "children": {},
-                "data": {},
-                "anim": {}
-            },
-            "contents": [
-                {
-                    "uniqueId": 4466701635,
-                    "wwVersion": 3,
-                    "content": {
-                        "type": "ww-text",
-                        "data": {
-                            "text": {
-                                "fr": "Nouveau texte",
-                                "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--contentBackground);\">Ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span></div>"
-                            },
-                            "tag": "div",
-                            "align": "",
-                            "font": "",
-                            "size": "",
-                            "color": "",
-                            "classes": [],
-                            "children": []
-                        }
-                    },
-                    "link": {
-                        "type": "none",
-                        "data": {}
-                    },
-                    "ratio": -1,
-                    "paddings": {
-                        "xs": {
-                            "top": 0,
-                            "left": 0,
-                            "right": 0,
-                            "bottom": 0
-                        },
-                        "md": {
-                            "top": 0,
-                            "left": 0,
-                            "right": 0,
-                            "bottom": 0
-                        }
-                    },
-                    "hidden": false,
-                    "tags": [],
-                    "children": {},
-                    "data": {},
-                    "anim": {}
-                }
-            ],
-            "uniqueId": 3046212107
-        },
-        {
-            "activeTitle": false,
-            "bgButtonColorValue": false,
-            "title": {
-                "uniqueId": 3282859422,
-                "wwVersion": 3,
-                "content": {
-                    "type": "ww-text",
-                    "data": {
-                        "text": {
-                            "fr": "Nouveau texte",
-                            "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--defaultButtonColor);\">Voluptatem</span></div>"
-                        },
-                        "tag": "div",
-                        "align": "",
-                        "font": "",
-                        "size": "",
-                        "color": "",
-                        "classes": [],
-                        "children": []
-                    }
-                },
-                "link": {
-                    "type": "none",
-                    "data": {}
-                },
-                "ratio": -1,
-                "paddings": {
-                    "xs": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    },
-                    "md": {
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0
-                    }
-                },
-                "hidden": false,
-                "tags": [],
-                "children": {},
-                "data": {},
-                "anim": {}
-            },
-            "contents": [
-                {
-                    "uniqueId": 6564084264,
-                    "wwVersion": 3,
-                    "content": {
-                        "type": "ww-text",
-                        "data": {
-                            "text": {
-                                "fr": "Nouveau texte",
-                                "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--contentBackground);\"><font face=\"Open Sans, sans-serif\">Voluptatem accusantium doloremque laudantium, totam rem aperiam. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</font></span></div>"
-                            },
-                            "tag": "div",
-                            "align": "",
-                            "font": "",
-                            "size": "",
-                            "color": "",
-                            "classes": [],
-                            "children": []
-                        }
-                    },
-                    "link": {
-                        "type": "none",
-                        "data": {}
-                    },
-                    "ratio": -1,
-                    "paddings": {
-                        "xs": {
-                            "top": 0,
-                            "left": 0,
-                            "right": 0,
-                            "bottom": 0
-                        },
-                        "md": {
-                            "top": 0,
-                            "left": 0,
-                            "right": 0,
-                            "bottom": 0
-                        }
-                    },
-                    "hidden": false,
-                    "tags": [],
-                    "children": {},
-                    "data": {},
-                    "anim": {}
-                }
-            ],
-            "uniqueId": 5240025092
-        },
-        {
-            "activeTitle": false,
-            "bgButtonColorValue": false,
-            "title": {
-                "uniqueId": 809766770,
+                "uniqueId": 4314011694,
                 "wwVersion": 3,
                 "content": {
                     "type": "ww-text",
@@ -239,7 +239,7 @@
             },
             "contents": [
                 {
-                    "uniqueId": 2318534732,
+                    "uniqueId": 5853341751,
                     "wwVersion": 3,
                     "content": {
                         "type": "ww-text",
@@ -287,17 +287,17 @@
         }
     ],
     "activeFeature": {
-        "activeTitle": true,
+        "activeTitle": false,
         "bgButtonColorValue": false,
         "title": {
-            "uniqueId": 10387944588,
+            "uniqueId": 14500217314,
             "wwVersion": 3,
             "content": {
                 "type": "ww-text",
                 "data": {
                     "text": {
                         "fr": "Nouveau texte",
-                        "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--activeButtonColor);\">Ed ut perspiciatis</span></div>"
+                        "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--activeButtonColor);\"><font face=\"Open Sans, sans-serif\">Ed ut perspiciatis</font></span></div>"
                     },
                     "tag": "div",
                     "align": "",
@@ -335,7 +335,7 @@
         },
         "contents": [
             {
-                "uniqueId": 5089372264,
+                "uniqueId": 4957210676,
                 "wwVersion": 3,
                 "content": {
                     "type": "ww-text",
@@ -391,7 +391,7 @@
     "titleBorderRadius": "20px",
     "animationBorderRadius": "33px 0 0 33px",
     "background": {
-        "uniqueId": 626567127,
+        "uniqueId": 4213552050,
         "wwVersion": 3,
         "content": {
             "type": "ww-image",
@@ -475,7 +475,7 @@
         "anim": {}
     },
     "content": {
-        "uniqueId": 2196659001,
+        "uniqueId": 9041999643,
         "wwVersion": 3,
         "content": {
             "type": "ww-text",
@@ -519,7 +519,7 @@
         "new": true
     },
     "title": {
-        "uniqueId": 9970361222,
+        "uniqueId": 6048456381,
         "wwVersion": 3,
         "content": {
             "type": "ww-text",
