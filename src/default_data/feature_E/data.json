@@ -1,1 +1,567 @@
-{}
+{
+    "features": [
+        {
+            "activeTitle": true,
+            "bgButtonColorValue": false,
+            "title": {
+                "uniqueId": 9671141975,
+                "wwVersion": 3,
+                "content": {
+                    "type": "ww-text",
+                    "data": {
+                        "text": {
+                            "fr": "Nouveau texte",
+                            "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--activeButtonColor);\">Ed ut perspiciatis</span></div>"
+                        },
+                        "tag": "div",
+                        "align": "",
+                        "font": "",
+                        "size": "",
+                        "color": "",
+                        "classes": [],
+                        "children": []
+                    }
+                },
+                "link": {
+                    "type": "none",
+                    "data": {}
+                },
+                "ratio": -1,
+                "paddings": {
+                    "xs": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "md": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    }
+                },
+                "hidden": false,
+                "tags": [],
+                "children": {},
+                "data": {},
+                "anim": {}
+            },
+            "contents": [
+                {
+                    "uniqueId": 4466701635,
+                    "wwVersion": 3,
+                    "content": {
+                        "type": "ww-text",
+                        "data": {
+                            "text": {
+                                "fr": "Nouveau texte",
+                                "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--contentBackground);\">Ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span></div>"
+                            },
+                            "tag": "div",
+                            "align": "",
+                            "font": "",
+                            "size": "",
+                            "color": "",
+                            "classes": [],
+                            "children": []
+                        }
+                    },
+                    "link": {
+                        "type": "none",
+                        "data": {}
+                    },
+                    "ratio": -1,
+                    "paddings": {
+                        "xs": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        },
+                        "md": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        }
+                    },
+                    "hidden": false,
+                    "tags": [],
+                    "children": {},
+                    "data": {},
+                    "anim": {}
+                }
+            ],
+            "uniqueId": 3046212107
+        },
+        {
+            "activeTitle": false,
+            "bgButtonColorValue": false,
+            "title": {
+                "uniqueId": 3282859422,
+                "wwVersion": 3,
+                "content": {
+                    "type": "ww-text",
+                    "data": {
+                        "text": {
+                            "fr": "Nouveau texte",
+                            "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--defaultButtonColor);\">Voluptatem</span></div>"
+                        },
+                        "tag": "div",
+                        "align": "",
+                        "font": "",
+                        "size": "",
+                        "color": "",
+                        "classes": [],
+                        "children": []
+                    }
+                },
+                "link": {
+                    "type": "none",
+                    "data": {}
+                },
+                "ratio": -1,
+                "paddings": {
+                    "xs": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "md": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    }
+                },
+                "hidden": false,
+                "tags": [],
+                "children": {},
+                "data": {},
+                "anim": {}
+            },
+            "contents": [
+                {
+                    "uniqueId": 6564084264,
+                    "wwVersion": 3,
+                    "content": {
+                        "type": "ww-text",
+                        "data": {
+                            "text": {
+                                "fr": "Nouveau texte",
+                                "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--contentBackground);\"><font face=\"Open Sans, sans-serif\">Voluptatem accusantium doloremque laudantium, totam rem aperiam. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</font></span></div>"
+                            },
+                            "tag": "div",
+                            "align": "",
+                            "font": "",
+                            "size": "",
+                            "color": "",
+                            "classes": [],
+                            "children": []
+                        }
+                    },
+                    "link": {
+                        "type": "none",
+                        "data": {}
+                    },
+                    "ratio": -1,
+                    "paddings": {
+                        "xs": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        },
+                        "md": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        }
+                    },
+                    "hidden": false,
+                    "tags": [],
+                    "children": {},
+                    "data": {},
+                    "anim": {}
+                }
+            ],
+            "uniqueId": 5240025092
+        },
+        {
+            "activeTitle": false,
+            "bgButtonColorValue": false,
+            "title": {
+                "uniqueId": 809766770,
+                "wwVersion": 3,
+                "content": {
+                    "type": "ww-text",
+                    "data": {
+                        "text": {
+                            "fr": "Nouveau texte",
+                            "en": "Accusantium"
+                        },
+                        "tag": "div",
+                        "align": "",
+                        "font": "",
+                        "size": "",
+                        "color": "",
+                        "classes": [],
+                        "children": []
+                    }
+                },
+                "link": {
+                    "type": "none",
+                    "data": {}
+                },
+                "ratio": -1,
+                "paddings": {
+                    "xs": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "md": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    }
+                },
+                "hidden": false,
+                "tags": [],
+                "children": {},
+                "data": {},
+                "anim": {}
+            },
+            "contents": [
+                {
+                    "uniqueId": 2318534732,
+                    "wwVersion": 3,
+                    "content": {
+                        "type": "ww-text",
+                        "data": {
+                            "text": {
+                                "fr": "Nouveau texte",
+                                "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--contentBackground);\"><font face=\"Open Sans, sans-serif\">Accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</font></span></div>"
+                            },
+                            "tag": "div",
+                            "align": "",
+                            "font": "",
+                            "size": "",
+                            "color": "",
+                            "classes": [],
+                            "children": []
+                        }
+                    },
+                    "link": {
+                        "type": "none",
+                        "data": {}
+                    },
+                    "ratio": -1,
+                    "paddings": {
+                        "xs": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        },
+                        "md": {
+                            "top": 0,
+                            "left": 0,
+                            "right": 0,
+                            "bottom": 0
+                        }
+                    },
+                    "hidden": false,
+                    "tags": [],
+                    "children": {},
+                    "data": {},
+                    "anim": {}
+                }
+            ],
+            "uniqueId": 2947632591
+        }
+    ],
+    "activeFeature": {
+        "activeTitle": true,
+        "bgButtonColorValue": false,
+        "title": {
+            "uniqueId": 10387944588,
+            "wwVersion": 3,
+            "content": {
+                "type": "ww-text",
+                "data": {
+                    "text": {
+                        "fr": "Nouveau texte",
+                        "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--activeButtonColor);\">Ed ut perspiciatis</span></div>"
+                    },
+                    "tag": "div",
+                    "align": "",
+                    "font": "",
+                    "size": "",
+                    "color": "",
+                    "classes": [],
+                    "children": []
+                }
+            },
+            "link": {
+                "type": "none",
+                "data": {}
+            },
+            "ratio": -1,
+            "paddings": {
+                "xs": {
+                    "top": 0,
+                    "left": 0,
+                    "right": 0,
+                    "bottom": 0
+                },
+                "md": {
+                    "top": 0,
+                    "left": 0,
+                    "right": 0,
+                    "bottom": 0
+                }
+            },
+            "hidden": false,
+            "tags": [],
+            "children": {},
+            "data": {},
+            "anim": {}
+        },
+        "contents": [
+            {
+                "uniqueId": 5089372264,
+                "wwVersion": 3,
+                "content": {
+                    "type": "ww-text",
+                    "data": {
+                        "text": {
+                            "fr": "Nouveau texte",
+                            "en": "<div style=\"text-align: center;\"><span style=\"text-align: initial; background-color: var(--contentBackground);\">Ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</span></div>"
+                        },
+                        "tag": "div",
+                        "align": "",
+                        "font": "",
+                        "size": "",
+                        "color": "",
+                        "classes": [],
+                        "children": []
+                    }
+                },
+                "link": {
+                    "type": "none",
+                    "data": {}
+                },
+                "ratio": -1,
+                "paddings": {
+                    "xs": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    },
+                    "md": {
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0
+                    }
+                },
+                "hidden": false,
+                "tags": [],
+                "children": {},
+                "data": {},
+                "anim": {}
+            }
+        ],
+        "uniqueId": 3046212107
+    },
+    "defaultButtonColor": "#FFFFFF",
+    "contentBackground": "#FFFFFF",
+    "activeButtonColor": "#9AD675",
+    "activeBorderColorValue": "#9AD675",
+    "shadowConfig": "0 10px 40px 0 rgba(113, 124, 137, 0.2)",
+    "bannerBorderRadius": "30px",
+    "mobileContentBorderRadius": "4px",
+    "titleBorderRadius": "20px",
+    "animationBorderRadius": "33px 0 0 33px",
+    "background": {
+        "uniqueId": 626567127,
+        "wwVersion": 3,
+        "content": {
+            "type": "ww-image",
+            "data": {
+                "url": "https://wewebdev.s3-eu-west-1.amazonaws.com/public/images/urban/ChicagoSkyline1.jpg",
+                "alt": "",
+                "position": {
+                    "x": 0,
+                    "y": 0
+                },
+                "pos": {
+                    "left": "0%",
+                    "top": "0%",
+                    "width": "100%",
+                    "height": "100%"
+                },
+                "zoom": 1,
+                "style": {
+                    "borderRadius": 0,
+                    "borderWidth": 0,
+                    "borderColor": null,
+                    "borderStyle": null,
+                    "overlay": null,
+                    "filter": null,
+                    "boxShadow": {
+                        "x": 0,
+                        "y": 0,
+                        "b": 0,
+                        "s": 0,
+                        "c": ""
+                    }
+                },
+                "animation": {
+                    "duration": 0,
+                    "delay": 0,
+                    "fn": null,
+                    "opacity": 1,
+                    "scale": 1,
+                    "translateX": 0,
+                    "translateY": 0,
+                    "rotate": 0
+                },
+                "imgSize": {
+                    "w": 1920,
+                    "h": 1080
+                },
+                "hover": {
+                    "name": "",
+                    "options": {}
+                },
+                "focusPoint": [
+                    50,
+                    50
+                ],
+                "crop": "100px100p@0px0p"
+            }
+        },
+        "link": {
+            "type": "none",
+            "data": {}
+        },
+        "ratio": -1,
+        "paddings": {
+            "xs": {
+                "top": 0,
+                "left": 0,
+                "right": 0,
+                "bottom": 0
+            },
+            "md": {
+                "top": 0,
+                "left": 0,
+                "right": 0,
+                "bottom": 0
+            }
+        },
+        "hidden": false,
+        "tags": [],
+        "children": {},
+        "data": {},
+        "anim": {}
+    },
+    "content": {
+        "uniqueId": 2196659001,
+        "wwVersion": 3,
+        "content": {
+            "type": "ww-text",
+            "data": {
+                "text": {
+                    "fr": "Nouveau texte"
+                },
+                "tag": "div",
+                "align": "",
+                "font": "",
+                "size": "",
+                "color": "",
+                "classes": [],
+                "children": []
+            }
+        },
+        "link": {
+            "type": "none",
+            "data": {}
+        },
+        "ratio": -1,
+        "paddings": {
+            "xs": {
+                "top": 0,
+                "left": 0,
+                "right": 0,
+                "bottom": 0
+            },
+            "md": {
+                "top": 0,
+                "left": 0,
+                "right": 0,
+                "bottom": 0
+            }
+        },
+        "hidden": false,
+        "tags": [],
+        "children": {},
+        "data": {},
+        "anim": {},
+        "new": true
+    },
+    "title": {
+        "uniqueId": 9970361222,
+        "wwVersion": 3,
+        "content": {
+            "type": "ww-text",
+            "data": {
+                "text": {
+                    "fr": "Nouveau texte"
+                },
+                "tag": "div",
+                "align": "",
+                "font": "",
+                "size": "",
+                "color": "",
+                "classes": [],
+                "children": []
+            }
+        },
+        "link": {
+            "type": "none",
+            "data": {}
+        },
+        "ratio": -1,
+        "paddings": {
+            "xs": {
+                "top": 0,
+                "left": 0,
+                "right": 0,
+                "bottom": 0
+            },
+            "md": {
+                "top": 0,
+                "left": 0,
+                "right": 0,
+                "bottom": 0
+            }
+        },
+        "hidden": false,
+        "tags": [],
+        "children": {},
+        "data": {},
+        "anim": {},
+        "new": true
+    },
+    "topWwObjs": [],
+    "bottomWwObjs": []
+}
